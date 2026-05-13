@@ -1,35 +1,44 @@
 // Country data with coordinates for major cities (EU Member States + UK)
-// Palette avoids Red and Blue families to keep markers and lines visible.
+// Distinct fill colors (no red/blue families — routes use red & blue on the map).
 const countryData = {
-    'Austria': { center: [47.5162, 14.5501], color: '#95a5a6' }, // Gray
-    'Belgium': { center: [50.5039, 4.4699], color: '#e67e22' }, // Orange
-    'Bulgaria': { center: [42.7339, 25.4858], color: '#27ae60' }, // Green
-    'Croatia': { center: [45.1000, 15.2000], color: '#8e44ad' }, // Purple
-    'Cyprus': { center: [35.1264, 33.4299], color: '#f1c40f' }, // Yellow
-    'Czech Republic': { center: [49.8175, 15.4730], color: '#bdc3c7' }, // Silver
-    'Denmark': { center: [56.2639, 9.5018], color: '#7f8c8d' }, // Asbestos Gray
-    'Estonia': { center: [58.5953, 25.0136], color: '#16a085' }, // Sea Green
-    'Finland': { center: [61.9241, 25.7482], color: '#2ecc71' }, // Emerald
-    'France': { center: [46.2276, 2.2137], color: '#9b59b6' }, // Amethyst Purple
-    'Germany': { center: [51.1657, 10.4515], color: '#27ae60' }, // Nephrite Green
-    'Greece': { center: [39.0742, 21.8243], color: '#f39c12' }, // Orange
-    'Hungary': { center: [47.1625, 19.5033], color: '#e67e22' }, // Carrot Orange
-    'Ireland': { center: [53.1424, -7.6921], color: '#2ecc71' }, // Emerald Green
-    'Italy': { center: [41.8719, 12.5674], color: '#bdc3c7' }, // Silver
-    'Latvia': { center: [56.8796, 24.6032], color: '#8e44ad' }, // Purple
-    'Lithuania': { center: [55.1694, 23.8813], color: '#f1c40f' }, // Yellow
-    'Luxembourg': { center: [49.8153, 6.1296], color: '#9b59b6' }, // Amethyst
-    'Malta': { center: [35.9375, 14.3754], color: '#f39c12' }, // Orange
-    'Netherlands': { center: [52.1326, 5.2913], color: '#e67e22' }, // Carrot
-    'Poland': { center: [51.9194, 19.1451], color: '#95a5a6' }, // Gray
-    'Portugal': { center: [39.3999, -8.2245], color: '#27ae60' }, // Green
-    'Romania': { center: [45.9432, 24.9668], color: '#7f8c8d' }, // Asbestos
-    'Slovakia': { center: [48.6690, 19.6990], color: '#16a085' }, // Sea Green
-    'Slovenia': { center: [46.1512, 14.9955], color: '#2ecc71' }, // Emerald
-    'Spain': { center: [40.4637, -3.7492], color: '#f1c40f' }, // Yellow
-    'Sweden': { center: [60.1282, 18.6435], color: '#8e44ad' }, // Purple
-    'United Kingdom': { center: [55.3781, -3.4360], color: '#9b59b6' }  // Purple
+    'Austria': { center: [47.5162, 14.5501], color: '#7B68A6' },
+    'Belgium': { center: [50.5039, 4.4699], color: '#BF6516' },
+    'Bulgaria': { center: [42.7339, 25.4858], color: '#008B6B' },
+    'Croatia': { center: [45.1000, 15.2000], color: '#9B3192' },
+    'Cyprus': { center: [35.1264, 33.4299], color: '#C9A227' },
+    'Czech Republic': { center: [49.8175, 15.4730], color: '#5C4D7D' },
+    'Denmark': { center: [56.2639, 9.5018], color: '#0D6961' },
+    'Estonia': { center: [58.5953, 25.0136], color: '#C15A9B' },
+    'Finland': { center: [61.9241, 25.7482], color: '#2E8B57' },
+    'France': { center: [46.2276, 2.2137], color: '#6B2D5C' },
+    'Germany': { center: [51.1657, 10.4515], color: '#3D9970' },
+    'Greece': { center: [39.0742, 21.8243], color: '#D47300' },
+    'Hungary': { center: [47.1625, 19.5033], color: '#8B6914' },
+    'Ireland': { center: [53.1424, -7.6921], color: '#1B7F3A' },
+    'Italy': { center: [41.8719, 12.5674], color: '#A23B72' },
+    'Latvia': { center: [56.8796, 24.6032], color: '#4B296B' },
+    'Lithuania': { center: [55.1694, 23.8813], color: '#E6A800' },
+    'Luxembourg': { center: [49.8153, 6.1296], color: '#A0522D' },
+    'Malta': { center: [35.9375, 14.3754], color: '#1B5E20' },
+    'Netherlands': { center: [52.1326, 5.2913], color: '#EF6C00' },
+    'Poland': { center: [51.9194, 19.1451], color: '#AB47BC' },
+    'Portugal': { center: [39.3999, -8.2245], color: '#00A896' },
+    'Romania': { center: [45.9432, 24.9668], color: '#A65E2E' },
+    'Slovakia': { center: [48.6690, 19.6990], color: '#558B2F' },
+    'Slovenia': { center: [46.1512, 14.9955], color: '#7D3885' },
+    'Spain': { center: [40.4637, -3.7492], color: '#BBA000' },
+    'Sweden': { center: [60.1282, 18.6435], color: '#512DA8' },
+    'United Kingdom': { center: [55.3781, -3.4360], color: '#33691E' }
 };
+
+// GeoJSON (datasets/geo-countries) uses different names than our UI for some countries
+const GEOJSON_NAME_TO_APP_COUNTRY = {
+    'Czechia': 'Czech Republic'
+};
+
+function appCountryKeyFromGeoJSON(geojsonName) {
+    return GEOJSON_NAME_TO_APP_COUNTRY[geojsonName] || geojsonName;
+}
 
 // Global data storage
 let selectedCountries = new Set();
@@ -40,13 +49,15 @@ let map;
 let layers = {
     accommodationLines: [],
     visitedCityLines: [],
-    markers: [],
-    countryLabels: []
+    markers: []
 };
 let showNonSelectedCountries = true;
 let showRoads = true;
 let geojsonLayer = null;
 let customCountryColors = {};
+
+const DEFAULT_TRIP_TITLE = 'Travel Map';
+let tripTitle = DEFAULT_TRIP_TITLE;
 
 // Initialize map
 function initMap() {
@@ -58,13 +69,22 @@ function initMap() {
         maxZoom: 19
     }).addTo(map);
 
+    // Country fills below routes/markers (overlayPane is 400; tiles ~200)
+    const countriesPane = map.createPane('countriesPane');
+    countriesPane.style.zIndex = 350;
+
+    // Accommodation polylines + stay markers above countries, visited lines, and markerPane (600)
+    const accommodationsTopPane = map.createPane('accommodationsTop');
+    accommodationsTopPane.style.zIndex = 620;
+
     // Load country boundaries GeoJSON
     fetch('https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson')
         .then(response => response.json())
         .then(data => {
             geojsonLayer = L.geoJSON(data, {
+                pane: 'countriesPane',
                 style: function(feature) {
-                    const countryName = feature.properties.name;
+                    const countryName = appCountryKeyFromGeoJSON(feature.properties.name);
                     const isSelected = selectedCountries.has(countryName);
                     
                     // Get color from countryData or use a default
@@ -79,42 +99,14 @@ function initMap() {
                     };
                 },
                 onEachFeature: function(feature, layer) {
-                    const countryName = feature.properties.name;
+                    const countryName = appCountryKeyFromGeoJSON(feature.properties.name);
                     const isSelected = selectedCountries.has(countryName);
-                    
-                    // Show labels for selected countries
                     if (isSelected) {
                         layer.bindPopup(`<strong>${countryName}</strong>`);
-                        
-                        // Get the center of the feature for label placement
-                        const bounds = layer.getBounds();
-                        const center = bounds.getCenter();
-                        
-                        // Add text label
-                        const label = L.marker(center, {
-                            icon: L.divIcon({
-                                html: `<div style="
-                                    background: rgba(255, 255, 255, 0.85);
-                                    padding: 4px 8px;
-                                    border-radius: 4px;
-                                    font-size: 12px;
-                                    font-weight: bold;
-                                    text-align: center;
-                                    color: #333;
-                                    border: 1px solid #999;
-                                    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-                                    white-space: nowrap;
-                                ">${countryName}</div>`,
-                                className: 'country-label',
-                                iconSize: null
-                            })
-                        }).addTo(map);
-                        
-                        if (!layers.countryLabels) layers.countryLabels = [];
-                        layers.countryLabels.push(label);
                     }
                 }
             }).addTo(map);
+            refreshGeojsonCountryStyles();
         })
         .catch(error => console.error('Error loading GeoJSON:', error));
 
@@ -139,6 +131,78 @@ function initMap() {
         return div;
     };
     legend.addTo(map);
+}
+
+function getMapContainerEl() {
+    return document.getElementById('mapContainer');
+}
+
+function isMapFullscreen() {
+    const fs = document.fullscreenElement
+        || document.webkitFullscreenElement
+        || document.mozFullScreenElement
+        || document.msFullscreenElement;
+    return fs && fs.id === 'mapContainer';
+}
+
+function toggleMapFullscreen() {
+    const btn = document.getElementById('mapFullscreenToggle');
+    if (btn && btn.disabled) return;
+
+    const el = getMapContainerEl();
+    if (!el) return;
+
+    const requestFs = el.requestFullscreen
+        || el.webkitRequestFullscreen
+        || el.mozRequestFullScreen
+        || el.msRequestFullscreen;
+    if (!requestFs) {
+        alert('Fullscreen is not supported in this browser.');
+        return;
+    }
+
+    if (isMapFullscreen()) {
+        if (document.exitFullscreen) void document.exitFullscreen();
+        else if (document.webkitExitFullscreen) void document.webkitExitFullscreen();
+        else if (document.mozCancelFullScreen) void document.mozCancelFullScreen();
+        else if (document.msExitFullscreen) void document.msExitFullscreen();
+    } else {
+        void requestFs.call(el);
+    }
+}
+
+function onMapFullscreenChanged() {
+    const btn = document.getElementById('mapFullscreenToggle');
+    if (!btn) return;
+    const on = isMapFullscreen();
+    btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    btn.title = on ? 'Exit fullscreen' : 'Fullscreen map';
+    const icon = btn.querySelector('i');
+    if (icon) {
+        icon.className = on ? 'fa-solid fa-compress' : 'fa-solid fa-expand';
+    }
+    if (typeof map !== 'undefined' && map) {
+        requestAnimationFrame(function() {
+            map.invalidateSize(true);
+        });
+        setTimeout(function() {
+            map.invalidateSize(true);
+        }, 200);
+    }
+}
+
+function initMapFullscreenUi() {
+    const el = getMapContainerEl();
+    const btn = document.getElementById('mapFullscreenToggle');
+    const canFs = el && (el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen || el.msRequestFullscreen);
+    if (btn && !canFs) {
+        btn.disabled = true;
+        btn.title = 'Fullscreen not supported';
+    }
+    document.addEventListener('fullscreenchange', onMapFullscreenChanged);
+    document.addEventListener('webkitfullscreenchange', onMapFullscreenChanged);
+    document.addEventListener('mozfullscreenchange', onMapFullscreenChanged);
+    document.addEventListener('MSFullscreenChange', onMapFullscreenChanged);
 }
 
 // Initialize country selection
@@ -183,26 +247,32 @@ function toggleCountry(country) {
     }
     
     // Update GeoJSON layer colors
-    if (geojsonLayer) {
-        geojsonLayer.setStyle(function(feature) {
-            const countryName = feature.properties.name;
-            const isSelected = selectedCountries.has(countryName);
-            const color = isSelected ? getCountryColor(countryName) : '#d3d3d3';
-            
-            return {
-                fillColor: color,
-                weight: isSelected ? 2 : 1,
-                opacity: 1,
-                color: isSelected ? '#333' : '#bbb',
-                fillOpacity: isSelected ? 0.7 : 0.2
-            };
-        });
-    }
+    refreshGeojsonCountryStyles();
     
     updateSelectedCountriesTags();
     updateAccommodationCountrySelect();
     updateColorCountrySelect();
     updateMap();
+}
+
+function updateSidebarCounts() {
+    const hc = document.getElementById('hdrCountriesCount');
+    const ha = document.getElementById('hdrAccommodationsCount');
+    if (hc) hc.textContent = selectedCountries.size;
+    if (ha) ha.textContent = accommodations.length;
+}
+
+function syncTripTitleUI() {
+    const input = document.getElementById('tripTitleInput');
+    if (input) input.value = tripTitle;
+    document.title = `${tripTitle} — Travel map visualizer`;
+}
+
+function onTripTitleInput() {
+    const input = document.getElementById('tripTitleInput');
+    if (!input) return;
+    tripTitle = input.value.trim() || DEFAULT_TRIP_TITLE;
+    document.title = `${tripTitle} — Travel map visualizer`;
 }
 
 // Update selected countries visual tags
@@ -212,6 +282,7 @@ function updateSelectedCountriesTags() {
 
     if (selectedCountries.size === 0) {
         container.innerHTML = '<p style="color: #999; font-size: 0.85em; margin: 0;">No countries selected</p>';
+        updateSidebarCounts();
         return;
     }
 
@@ -226,6 +297,7 @@ function updateSelectedCountriesTags() {
         `;
         container.appendChild(tag);
     });
+    updateSidebarCounts();
 }
 
 // Remove country from selection via tag
@@ -240,21 +312,7 @@ function removeCountryTag(country) {
     });
 
     // Update GeoJSON layer colors
-    if (geojsonLayer) {
-        geojsonLayer.setStyle(function(feature) {
-            const countryName = feature.properties.name;
-            const isSelected = selectedCountries.has(countryName);
-            const color = isSelected ? getCountryColor(countryName) : '#d3d3d3';
-            
-            return {
-                fillColor: color,
-                weight: isSelected ? 2 : 1,
-                opacity: 1,
-                color: isSelected ? '#333' : '#bbb',
-                fillOpacity: isSelected ? 0.7 : 0.2
-            };
-        });
-    }
+    refreshGeojsonCountryStyles();
 
     updateSelectedCountriesTags();
     updateAccommodationCountrySelect();
@@ -285,6 +343,22 @@ function getCountryColor(country) {
     return countryData[country]?.color || '#d3d3d3';
 }
 
+function refreshGeojsonCountryStyles() {
+    if (!geojsonLayer) return;
+    geojsonLayer.setStyle(function(feature) {
+        const countryName = appCountryKeyFromGeoJSON(feature.properties.name);
+        const isSelected = selectedCountries.has(countryName);
+        const color = isSelected ? getCountryColor(countryName) : '#d3d3d3';
+        return {
+            fillColor: color,
+            weight: isSelected ? 2 : 1,
+            opacity: 1,
+            color: isSelected ? '#333' : '#bbb',
+            fillOpacity: isSelected ? 0.7 : 0.2
+        };
+    });
+}
+
 // Update map display
 function updateMap() {
     // Clear existing layers
@@ -302,6 +376,7 @@ function updateMap() {
             const to = accommodations[i + 1];
             if (from.coords && to.coords) {
                 const line = L.polyline([from.coords, to.coords], {
+                    pane: 'accommodationsTop',
                     color: '#e74c3c',
                     weight: 3,
                     opacity: 0.8,
@@ -362,6 +437,7 @@ function updateMap() {
     accommodations.forEach(acc => {
         if (acc.coords) {
             const marker = L.circleMarker(acc.coords, {
+                pane: 'accommodationsTop',
                 radius: 8,
                 fillColor: '#e74c3c',
                 color: '#fff',
@@ -373,6 +449,7 @@ function updateMap() {
             
             // Add label for accommodation
             const accLabel = L.marker(acc.coords, {
+                pane: 'accommodationsTop',
                 icon: L.divIcon({
                     html: `<div style="
                         background: rgba(231, 76, 60, 0.9);
@@ -459,12 +536,15 @@ async function addAccommodation() {
     renderAccommodationList();
     updateVisitedAccommodationSelect();
     updateMap();
+    updateSidebarCounts();
 }
 
 // Render accommodation list
 function renderAccommodationList() {
     const container = document.getElementById('accommodationList');
     container.innerHTML = '';
+
+    const lastIdx = accommodations.length - 1;
 
     accommodations.forEach((acc, index) => {
         const div = document.createElement('div');
@@ -473,6 +553,10 @@ function renderAccommodationList() {
             <h4>${index + 1}. ${acc.city}</h4>
             <p>📍 ${acc.country}</p>
             <p style="font-size: 0.8em; color: #999;">Lat: ${acc.coords[0].toFixed(3)}, Lon: ${acc.coords[1].toFixed(3)}</p>
+            <div style="display: flex; gap: 8px; margin-bottom: 8px;">
+                <button type="button" onclick="moveAccommodationUp(${index})" title="Move up" ${index === 0 ? 'disabled' : ''} style="flex: 1; background: #7f8c8d; font-size: 0.85em; ${index === 0 ? 'opacity: 0.45; cursor: not-allowed;' : ''}"><i class="fa-solid fa-chevron-up"></i> Up</button>
+                <button type="button" onclick="moveAccommodationDown(${index})" title="Move down" ${index === lastIdx ? 'disabled' : ''} style="flex: 1; background: #7f8c8d; font-size: 0.85em; ${index === lastIdx ? 'opacity: 0.45; cursor: not-allowed;' : ''}"><i class="fa-solid fa-chevron-down"></i> Down</button>
+            </div>
             <div style="display: flex; gap: 8px;">
                 <button onclick="openCoordinateModal('accommodation', ${index})" style="flex: 1; background: #3498db; font-size: 0.85em;">📍 Edit Coords</button>
                 <button onclick="updateAccommodation(${index})" style="flex: 1; background: #f39c12;">✏️ Update</button>
@@ -481,6 +565,52 @@ function renderAccommodationList() {
         `;
         container.appendChild(div);
     });
+}
+
+// Keep visited place labels/lines aligned with stays after reorder
+function syncVisitedCityAccommodationRefs() {
+    visitedCities.forEach(city => {
+        const acc = accommodations[city.accommodationIndex];
+        if (acc) {
+            city.accommodationName = `${acc.city}, ${acc.country}`;
+            city.accommodationCoords = acc.coords;
+        }
+    });
+}
+
+// Swap stays at lowerIndex and lowerIndex + 1; fix visited city indices
+function swapAccommodationsAdjacent(lowerIndex) {
+    const i = lowerIndex;
+    const j = i + 1;
+    if (j >= accommodations.length) return;
+
+    const tmp = accommodations[i];
+    accommodations[i] = accommodations[j];
+    accommodations[j] = tmp;
+
+    visitedCities.forEach(city => {
+        if (city.accommodationIndex === i) {
+            city.accommodationIndex = j;
+        } else if (city.accommodationIndex === j) {
+            city.accommodationIndex = i;
+        }
+    });
+
+    syncVisitedCityAccommodationRefs();
+    renderAccommodationList();
+    renderVisitedPlacesList();
+    updateVisitedAccommodationSelect();
+    updateMap();
+}
+
+function moveAccommodationUp(index) {
+    if (index <= 0) return;
+    swapAccommodationsAdjacent(index - 1);
+}
+
+function moveAccommodationDown(index) {
+    if (index >= accommodations.length - 1) return;
+    swapAccommodationsAdjacent(index);
 }
 
 // Remove accommodation
@@ -499,6 +629,7 @@ function removeAccommodation(index) {
     renderVisitedPlacesList();
     updateVisitedAccommodationSelect();
     updateMap();
+    updateSidebarCounts();
 }
 
 // Update accommodation
@@ -523,6 +654,7 @@ function updateAccommodation(index) {
     renderVisitedPlacesList();
     updateVisitedAccommodationSelect();
     updateMap();
+    updateSidebarCounts();
 }
 
 // Update visited accommodation select dropdown
@@ -631,6 +763,9 @@ function clearAll() {
         accommodations = [];
         visitedCities = [];
         cityGeocodingCache = {};
+        customCountryColors = {};
+        tripTitle = DEFAULT_TRIP_TITLE;
+        syncTripTitleUI();
 
         document.getElementById('accommodationCity').value = '';
         document.getElementById('accommodationCountry').value = '';
@@ -642,10 +777,13 @@ function clearAll() {
             cb.checked = false;
         });
 
+        refreshGeojsonCountryStyles();
+
         renderAccommodationList();
         renderVisitedPlacesList();
         updateSelectedCountriesTags();
         updateAccommodationCountrySelect();
+        updateColorCountrySelect();
         updateVisitedAccommodationSelect();
         updateMap();
     }
@@ -654,6 +792,7 @@ function clearAll() {
 // Export data to JSON file
 function exportData() {
     const data = {
+        tripTitle: tripTitle,
         selectedCountries: Array.from(selectedCountries),
         accommodations: accommodations,
         visitedCities: visitedCities,
@@ -666,7 +805,8 @@ function exportData() {
     
     const link = document.createElement('a');
     link.href = url;
-    link.download = `travel_map_${new Date().toISOString().split('T')[0]}.json`;
+    const safeBase = tripTitle.replace(/[^\w\-\s\u00C0-\u024f]/gi, '').trim().replace(/\s+/g, '_').slice(0, 48) || 'travel_map';
+    link.download = `${safeBase}_${new Date().toISOString().split('T')[0]}.json`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -680,6 +820,53 @@ function importData() {
     document.getElementById('importFile').click();
 }
 
+function applyTravelData(data) {
+    if (!data.selectedCountries || !Array.isArray(data.selectedCountries) ||
+        !data.accommodations || !Array.isArray(data.accommodations) ||
+        !data.visitedCities || !Array.isArray(data.visitedCities)) {
+        throw new Error('Invalid file format');
+    }
+
+    selectedCountries = new Set(data.selectedCountries);
+    accommodations = data.accommodations;
+    visitedCities = data.visitedCities;
+
+    tripTitle = (typeof data.tripTitle === 'string' && data.tripTitle.trim())
+        ? data.tripTitle.trim()
+        : DEFAULT_TRIP_TITLE;
+    syncTripTitleUI();
+
+    document.querySelectorAll('.country-select input[type="checkbox"]').forEach(cb => {
+        cb.checked = selectedCountries.has(cb.value);
+    });
+
+    refreshGeojsonCountryStyles();
+
+    renderAccommodationList();
+    renderVisitedPlacesList();
+    updateSelectedCountriesTags();
+    updateAccommodationCountrySelect();
+    updateColorCountrySelect();
+    updateVisitedAccommodationSelect();
+    updateMap();
+    updateSidebarCounts();
+}
+
+async function tryLoadDefaultJson() {
+    try {
+        const response = await fetch('default.json', { cache: 'no-store' });
+        if (!response.ok) return false;
+
+        const data = await response.json();
+        applyTravelData(data);
+        console.info('Loaded travel data from default.json');
+        return true;
+    } catch (e) {
+        console.debug('default.json not loaded:', e);
+        return false;
+    }
+}
+
 // Handle file import
 async function handleFileImport() {
     const file = document.getElementById('importFile').files[0];
@@ -689,30 +876,7 @@ async function handleFileImport() {
     try {
         const fileContent = await file.text();
         const data = JSON.parse(fileContent);
-
-        // Validate data structure
-        if (!data.selectedCountries || !Array.isArray(data.selectedCountries) ||
-            !data.accommodations || !Array.isArray(data.accommodations) ||
-            !data.visitedCities || !Array.isArray(data.visitedCities)) {
-            throw new Error('Invalid file format');
-        }
-
-        // Load the data
-        selectedCountries = new Set(data.selectedCountries);
-        accommodations = data.accommodations;
-        visitedCities = data.visitedCities;
-
-        // Update all UI elements
-        document.querySelectorAll('.country-select input[type="checkbox"]').forEach(cb => {
-            cb.checked = selectedCountries.has(cb.value);
-        });
-
-        renderAccommodationList();
-        renderVisitedPlacesList();
-        updateSelectedCountriesTags();
-        updateAccommodationCountrySelect();
-        updateVisitedAccommodationSelect();
-        updateMap();
+        applyTravelData(data);
 
         alert(`Travel data imported successfully!\n\nLoaded:\n- ${selectedCountries.size} countries\n- ${accommodations.length} accommodations\n- ${visitedCities.length} visited cities`);
     } catch (error) {
@@ -827,22 +991,7 @@ function updateCountryColor() {
     
     customCountryColors[country] = newColor;
     
-    // Update GeoJSON layer colors
-    if (geojsonLayer) {
-        geojsonLayer.setStyle(function(feature) {
-            const countryName = feature.properties.name;
-            const isSelected = selectedCountries.has(countryName);
-            const color = isSelected ? getCountryColor(countryName) : '#d3d3d3';
-            
-            return {
-                fillColor: color,
-                weight: isSelected ? 2 : 1,
-                opacity: 1,
-                color: isSelected ? '#333' : '#bbb',
-                fillOpacity: isSelected ? 0.7 : 0.2
-            };
-        });
-    }
+    refreshGeojsonCountryStyles();
     
     updateSelectedCountriesTags();
     updateMap();
@@ -858,37 +1007,28 @@ function resetCountryColor() {
     delete customCountryColors[country];
     document.getElementById('colorPicker').value = getCountryColor(country);
     
-    // Update GeoJSON layer colors
-    if (geojsonLayer) {
-        geojsonLayer.setStyle(function(feature) {
-            const countryName = feature.properties.name;
-            const isSelected = selectedCountries.has(countryName);
-            const color = isSelected ? getCountryColor(countryName) : '#d3d3d3';
-            
-            return {
-                fillColor: color,
-                weight: isSelected ? 2 : 1,
-                opacity: 1,
-                color: isSelected ? '#333' : '#bbb',
-                fillOpacity: isSelected ? 0.7 : 0.2
-            };
-        });
-    }
+    refreshGeojsonCountryStyles();
     
     updateSelectedCountriesTags();
     updateMap();
 }
 
 // Initialize on page load
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
     initMap();
+    initMapFullscreenUi();
     initCountrySelect();
-    
-    renderAccommodationList();
-    renderVisitedPlacesList();
-    updateSelectedCountriesTags();
-    updateAccommodationCountrySelect();
-    updateColorCountrySelect();
-    updateVisitedAccommodationSelect();
-    updateMap();
+
+    const loadedDefault = await tryLoadDefaultJson();
+
+    if (!loadedDefault) {
+        renderAccommodationList();
+        renderVisitedPlacesList();
+        updateSelectedCountriesTags();
+        updateAccommodationCountrySelect();
+        updateColorCountrySelect();
+        updateVisitedAccommodationSelect();
+        updateMap();
+    }
+    syncTripTitleUI();
 });

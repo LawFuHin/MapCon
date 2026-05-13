@@ -1,0 +1,652 @@
+{
+  "tripTitle": "William EU Trip Map",
+  "selectedCountries": [
+    "United Kingdom",
+    "Netherlands",
+    "Belgium",
+    "Germany",
+    "Austria",
+    "Hungary",
+    "Slovenia",
+    "Czech Republic",
+    "Poland",
+    "Slovakia",
+    "Croatia",
+    "Malta",
+    "Portugal"
+  ],
+  "accommodations": [
+    {
+      "city": "Whitechapel",
+      "country": "United Kingdom",
+      "coords": [
+        51.5174861,
+        -0.0659685
+      ]
+    },
+    {
+      "city": "Edinburgh",
+      "country": "United Kingdom",
+      "coords": [
+        55.9533456,
+        -3.1883749
+      ]
+    },
+    {
+      "city": "Assendelft",
+      "country": "Netherlands",
+      "coords": [
+        52.4681109,
+        4.7449605
+      ]
+    },
+    {
+      "city": "Munich",
+      "country": "Germany",
+      "coords": [
+        48.1371079,
+        11.5753822
+      ]
+    },
+    {
+      "city": "Budapest",
+      "country": "Hungary",
+      "coords": [
+        47.4978789,
+        19.0402383
+      ]
+    },
+    {
+      "city": "Prague",
+      "country": "Czech Republic",
+      "coords": [
+        50.0874654,
+        14.4212535
+      ]
+    },
+    {
+      "city": "Krakow",
+      "country": "Poland",
+      "coords": [
+        50.0469432,
+        19.9971534
+      ]
+    },
+    {
+      "city": "Vienna",
+      "country": "Austria",
+      "coords": [
+        48.2083537,
+        16.3725042
+      ]
+    },
+    {
+      "city": "ljubljana",
+      "country": "Slovenia",
+      "coords": [
+        46.0500268,
+        14.5069289
+      ]
+    },
+    {
+      "city": "Split",
+      "country": "Croatia",
+      "coords": [
+        43.5116383,
+        16.4399659
+      ]
+    },
+    {
+      "city": "San Pawl il-Baħar",
+      "country": "Malta",
+      "coords": [
+        35.9480742,
+        14.3973929
+      ]
+    },
+    {
+      "city": "Porto",
+      "country": "Portugal",
+      "coords": [
+        41.1502195,
+        -8.6103497
+      ]
+    }
+  ],
+  "visitedCities": [
+    {
+      "name": "Oxford",
+      "accommodationName": "Whitechapel, United Kingdom",
+      "accommodationIndex": 0,
+      "accommodationCoords": [
+        51.5174861,
+        -0.0659685
+      ],
+      "coords": [
+        51.7520131,
+        -1.2578499
+      ]
+    },
+    {
+      "name": "Cambridge",
+      "accommodationName": "Whitechapel, United Kingdom",
+      "accommodationIndex": 0,
+      "accommodationCoords": [
+        51.5174861,
+        -0.0659685
+      ],
+      "coords": [
+        52.1975846,
+        0.1391537
+      ]
+    },
+    {
+      "name": "Skye",
+      "accommodationName": "Edinburgh, United Kingdom",
+      "accommodationIndex": 1,
+      "accommodationCoords": [
+        55.9533456,
+        -3.1883749
+      ],
+      "coords": [
+        57.3630183,
+        -6.3023463
+      ]
+    },
+    {
+      "name": "inverness",
+      "accommodationName": "Edinburgh, United Kingdom",
+      "accommodationIndex": 1,
+      "accommodationCoords": [
+        55.9533456,
+        -3.1883749
+      ],
+      "coords": [
+        57.4790124,
+        -4.225739
+      ]
+    },
+    {
+      "name": "Glenfinnan",
+      "accommodationName": "Edinburgh, United Kingdom",
+      "accommodationIndex": 1,
+      "accommodationCoords": [
+        55.9533456,
+        -3.1883749
+      ],
+      "coords": [
+        56.872438,
+        -5.4493089
+      ]
+    },
+    {
+      "name": "Glencoe",
+      "accommodationName": "Edinburgh, United Kingdom",
+      "accommodationIndex": 1,
+      "accommodationCoords": [
+        55.9533456,
+        -3.1883749
+      ],
+      "coords": [
+        56.6827647,
+        -5.1014552
+      ]
+    },
+    {
+      "name": "Amsterdam",
+      "accommodationName": "Assendelft, Netherlands",
+      "accommodationIndex": 2,
+      "accommodationCoords": [
+        52.4681109,
+        4.7449605
+      ],
+      "coords": [
+        52.3730796,
+        4.8924534
+      ]
+    },
+    {
+      "name": "Zaandam",
+      "accommodationName": "Assendelft, Netherlands",
+      "accommodationIndex": 2,
+      "accommodationCoords": [
+        52.4681109,
+        4.7449605
+      ],
+      "coords": [
+        52.4424926,
+        4.8298607
+      ]
+    },
+    {
+      "name": "The Hague",
+      "accommodationName": "Assendelft, Netherlands",
+      "accommodationIndex": 2,
+      "accommodationCoords": [
+        52.4681109,
+        4.7449605
+      ],
+      "coords": [
+        52.0799838,
+        4.3113461
+      ]
+    },
+    {
+      "name": "Rotterdam",
+      "accommodationName": "Assendelft, Netherlands",
+      "accommodationIndex": 2,
+      "accommodationCoords": [
+        52.4681109,
+        4.7449605
+      ],
+      "coords": [
+        51.9244424,
+        4.47775
+      ]
+    },
+    {
+      "name": "Kinderdijk",
+      "accommodationName": "Assendelft, Netherlands",
+      "accommodationIndex": 2,
+      "accommodationCoords": [
+        52.4681109,
+        4.7449605
+      ],
+      "coords": [
+        51.8886955,
+        4.6356972
+      ]
+    },
+    {
+      "name": "Keukenhof",
+      "accommodationName": "Assendelft, Netherlands",
+      "accommodationIndex": 2,
+      "accommodationCoords": [
+        52.4681109,
+        4.7449605
+      ],
+      "coords": [
+        52.2698728,
+        4.5472566
+      ]
+    },
+    {
+      "name": "Antwerp",
+      "accommodationName": "Assendelft, Netherlands",
+      "accommodationIndex": 2,
+      "accommodationCoords": [
+        52.4681109,
+        4.7449605
+      ],
+      "coords": [
+        51.2194,
+        4.4024
+      ]
+    },
+    {
+      "name": "Berlin",
+      "accommodationName": "Munich, Germany",
+      "accommodationIndex": 3,
+      "accommodationCoords": [
+        48.1371079,
+        11.5753822
+      ],
+      "coords": [
+        52.5173885,
+        13.3951309
+      ]
+    },
+    {
+      "name": "Innsbruck",
+      "accommodationName": "Munich, Germany",
+      "accommodationIndex": 3,
+      "accommodationCoords": [
+        48.1371079,
+        11.5753822
+      ],
+      "coords": [
+        47.2692,
+        11.4041
+      ]
+    },
+    {
+      "name": "Zugspitze",
+      "accommodationName": "Munich, Germany",
+      "accommodationIndex": 3,
+      "accommodationCoords": [
+        48.1371079,
+        11.5753822
+      ],
+      "coords": [
+        47.421215,
+        10.986297
+      ]
+    },
+    {
+      "name": "Hallstatt",
+      "accommodationName": "Munich, Germany",
+      "accommodationIndex": 3,
+      "accommodationCoords": [
+        48.1371079,
+        11.5753822
+      ],
+      "coords": [
+        47.5622,
+        13.6493
+      ]
+    },
+    {
+      "name": "Fussen",
+      "accommodationName": "Munich, Germany",
+      "accommodationIndex": 3,
+      "accommodationCoords": [
+        48.1371079,
+        11.5753822
+      ],
+      "coords": [
+        47.5675998,
+        10.6993217
+      ]
+    },
+    {
+      "name": "Giethoorn",
+      "accommodationName": "Assendelft, Netherlands",
+      "accommodationIndex": 2,
+      "accommodationCoords": [
+        52.4681109,
+        4.7449605
+      ],
+      "coords": [
+        52.741105,
+        6.077431
+      ]
+    },
+    {
+      "name": "Vienna",
+      "accommodationName": "Budapest, Hungary",
+      "accommodationIndex": 4,
+      "accommodationCoords": [
+        47.4978789,
+        19.0402383
+      ],
+      "coords": [
+        48.2082,
+        16.3738
+      ]
+    },
+    {
+      "name": "Bratislava",
+      "accommodationName": "Budapest, Hungary",
+      "accommodationIndex": 4,
+      "accommodationCoords": [
+        47.4978789,
+        19.0402383
+      ],
+      "coords": [
+        48.1421376,
+        17.1020877
+      ]
+    },
+    {
+      "name": "Salzburg",
+      "accommodationName": "Munich, Germany",
+      "accommodationIndex": 3,
+      "accommodationCoords": [
+        48.1371079,
+        11.5753822
+      ],
+      "coords": [
+        47.8095,
+        13.055
+      ]
+    },
+    {
+      "name": "Cesky Krumlov",
+      "accommodationName": "Prague, Czech Republic",
+      "accommodationIndex": 5,
+      "accommodationCoords": [
+        50.0874654,
+        14.4212535
+      ],
+      "coords": [
+        48.8106526,
+        14.3150586
+      ]
+    },
+    {
+      "name": "Zakopane",
+      "accommodationName": "Krakow, Poland",
+      "accommodationIndex": 6,
+      "accommodationCoords": [
+        50.0469432,
+        19.9971534
+      ],
+      "coords": [
+        49.2969114,
+        19.9504753
+      ]
+    },
+    {
+      "name": "Oswiecim",
+      "accommodationName": "Krakow, Poland",
+      "accommodationIndex": 6,
+      "accommodationCoords": [
+        50.0469432,
+        19.9971534
+      ],
+      "coords": [
+        50.0336707,
+        19.2600798
+      ]
+    },
+    {
+      "name": "Konigssee",
+      "accommodationName": "Vienna, Austria",
+      "accommodationIndex": 7,
+      "accommodationCoords": [
+        48.2083537,
+        16.3725042
+      ],
+      "coords": [
+        47.5562,
+        12.9734
+      ]
+    },
+    {
+      "name": "Bled",
+      "accommodationName": "ljubljana, Slovenia",
+      "accommodationIndex": 8,
+      "accommodationCoords": [
+        46.0500268,
+        14.5069289
+      ],
+      "coords": [
+        46.3684202,
+        14.1100595
+      ]
+    },
+    {
+      "name": "Soteska Vintgar",
+      "accommodationName": "ljubljana, Slovenia",
+      "accommodationIndex": 8,
+      "accommodationCoords": [
+        46.0500268,
+        14.5069289
+      ],
+      "coords": [
+        46.3986171,
+        14.0927482
+      ]
+    },
+    {
+      "name": "Trogir",
+      "accommodationName": "Split, Croatia",
+      "accommodationIndex": 9,
+      "accommodationCoords": [
+        43.5116383,
+        16.4399659
+      ],
+      "coords": [
+        43.5164142,
+        16.2497163
+      ]
+    },
+    {
+      "name": "Dubrovnik",
+      "accommodationName": "Split, Croatia",
+      "accommodationIndex": 9,
+      "accommodationCoords": [
+        43.5116383,
+        16.4399659
+      ],
+      "coords": [
+        42.6491029,
+        18.0939501
+      ]
+    },
+    {
+      "name": "Zadar",
+      "accommodationName": "Split, Croatia",
+      "accommodationIndex": 9,
+      "accommodationCoords": [
+        43.5116383,
+        16.4399659
+      ],
+      "coords": [
+        44.1168594,
+        15.2353257
+      ]
+    },
+    {
+      "name": "Il-Mellieħa",
+      "accommodationName": "San Pawl il-Baħar, Malta",
+      "accommodationIndex": 10,
+      "accommodationCoords": [
+        35.9480742,
+        14.3973929
+      ],
+      "coords": [
+        35.9599618,
+        14.368367
+      ]
+    },
+    {
+      "name": "Popeye Village",
+      "accommodationName": "San Pawl il-Baħar, Malta",
+      "accommodationIndex": 10,
+      "accommodationCoords": [
+        35.9480742,
+        14.3973929
+      ],
+      "coords": [
+        35.9608373,
+        14.340684
+      ]
+    },
+    {
+      "name": "Gozo",
+      "accommodationName": "San Pawl il-Baħar, Malta",
+      "accommodationIndex": 10,
+      "accommodationCoords": [
+        35.9480742,
+        14.3973929
+      ],
+      "coords": [
+        36.0467778,
+        14.2582565
+      ]
+    },
+    {
+      "name": "Tas-Sliema",
+      "accommodationName": "San Pawl il-Baħar, Malta",
+      "accommodationIndex": 10,
+      "accommodationCoords": [
+        35.9480742,
+        14.3973929
+      ],
+      "coords": [
+        35.9127609,
+        14.5020708
+      ]
+    },
+    {
+      "name": "Il-Belt Valletta",
+      "accommodationName": "San Pawl il-Baħar, Malta",
+      "accommodationIndex": 10,
+      "accommodationCoords": [
+        35.9480742,
+        14.3973929
+      ],
+      "coords": [
+        35.8989979,
+        14.5136607
+      ]
+    },
+    {
+      "name": "L-Imdina",
+      "accommodationName": "San Pawl il-Baħar, Malta",
+      "accommodationIndex": 10,
+      "accommodationCoords": [
+        35.9480742,
+        14.3973929
+      ],
+      "coords": [
+        35.8858923,
+        14.4025288
+      ]
+    },
+    {
+      "name": "Ir-Rabat",
+      "accommodationName": "San Pawl il-Baħar, Malta",
+      "accommodationIndex": 10,
+      "accommodationCoords": [
+        35.9480742,
+        14.3973929
+      ],
+      "coords": [
+        35.8818906,
+        14.3988213
+      ]
+    },
+    {
+      "name": "Birgu",
+      "accommodationName": "San Pawl il-Baħar, Malta",
+      "accommodationIndex": 10,
+      "accommodationCoords": [
+        35.9480742,
+        14.3973929
+      ],
+      "coords": [
+        35.8881119,
+        14.5238445
+      ]
+    },
+    {
+      "name": "L-Isla",
+      "accommodationName": "San Pawl il-Baħar, Malta",
+      "accommodationIndex": 10,
+      "accommodationCoords": [
+        35.9480742,
+        14.3973929
+      ],
+      "coords": [
+        35.887175,
+        14.517307
+      ]
+    },
+    {
+      "name": "Marsaxlokk",
+      "accommodationName": "San Pawl il-Baħar, Malta",
+      "accommodationIndex": 10,
+      "accommodationCoords": [
+        35.9480742,
+        14.3973929
+      ],
+      "coords": [
+        35.8417662,
+        14.5448353
+      ]
+    }
+  ],
+  "exportDate": "2026-05-13T20:57:39.047Z"
+}

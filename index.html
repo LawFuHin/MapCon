@@ -39,12 +39,54 @@
             flex-direction: column;
         }
 
-        .sidebar h2 {
-            color: #333;
+        .sidebar-title-block {
             margin-bottom: 20px;
-            font-size: 1.5em;
             border-bottom: 3px solid #667eea;
-            padding-bottom: 10px;
+            padding-bottom: 12px;
+        }
+
+        .trip-title-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 4px;
+        }
+
+        .trip-title-row .plane-icon {
+            font-size: 1.4em;
+            flex-shrink: 0;
+        }
+
+        .trip-title-input {
+            flex: 1;
+            font-size: 1.35em;
+            font-weight: 600;
+            color: #333;
+            font-family: inherit;
+            border: none;
+            border-bottom: 2px solid #c5cae8;
+            padding: 6px 4px;
+            background: transparent;
+            min-width: 0;
+        }
+
+        .trip-title-input:focus {
+            outline: none;
+            border-bottom-color: #667eea;
+        }
+
+        .section h3 .count-pill {
+            display: inline-block;
+            margin-left: 6px;
+            padding: 2px 8px;
+            font-size: 0.85em;
+            font-weight: 700;
+            letter-spacing: 0;
+            text-transform: none;
+            background: #eef1ff;
+            color: #667eea;
+            border-radius: 999px;
+            vertical-align: middle;
         }
 
         .section {
@@ -258,10 +300,49 @@
         }
 
         .map-container {
+            position: relative;
             background: white;
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .map-container:fullscreen,
+        .map-container:-webkit-full-screen {
+            border-radius: 0;
+            width: 100%;
+            height: 100%;
+            max-height: 100%;
+        }
+
+        .map-fullscreen-toggle {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            z-index: 1000;
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+
+        .map-fullscreen-toggle:hover {
+            background: #fff;
+            color: #667eea;
+        }
+
+        .map-fullscreen-toggle:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
         }
 
         #map {
@@ -384,7 +465,12 @@
     <div class="container">
         <!-- Sidebar -->
         <div class="sidebar">
-            <h2>✈️ Travel Map</h2>
+            <div class="sidebar-title-block">
+                <div class="trip-title-row">
+                    <span class="plane-icon" aria-hidden="true">✈️</span>
+                    <input type="text" id="tripTitleInput" class="trip-title-input" value="Travel Map" maxlength="120" placeholder="Trip name" aria-label="Trip map title" oninput="onTripTitleInput()">
+                </div>
+            </div>
 
             <div class="info-box">
                 Select countries, add accommodations, and mark visited cities to visualize your travels!
@@ -392,7 +478,7 @@
 
             <!-- Country Selection -->
             <div class="section">
-                <h3>🌍 Countries Visited </h3>
+                <h3>🌍 Countries visited <span id="hdrCountriesCount" class="count-pill">0</span></h3>
                 <div class="input-group">
                     <input type="text" id="countrySearch" placeholder="Search countries..." onkeyup="filterCountries()">
                 </div>
@@ -420,7 +506,7 @@
 
             <!-- Accommodation Section -->
             <div class="section">
-                <h3>🏨 Accommodations</h3>
+                <h3>🏨 Accommodations <span id="hdrAccommodationsCount" class="count-pill">0</span></h3>
                 <div class="input-group">
                     <label for="accommodationCountry">Country</label>
                     <select id="accommodationCountry">
@@ -472,7 +558,10 @@
         </div>
 
         <!-- Map Container -->
-        <div class="map-container">
+        <div class="map-container" id="mapContainer">
+            <button type="button" id="mapFullscreenToggle" class="map-fullscreen-toggle" onclick="toggleMapFullscreen()" title="Fullscreen map" aria-label="Toggle map fullscreen" aria-pressed="false">
+                <i class="fa-solid fa-expand"></i>
+            </button>
             <div id="map"></div>
         </div>
     </div>
