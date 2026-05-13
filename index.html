@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Map Visualizer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 20px;
+            height: calc(100vh - 40px);
+        }
+
+        .sidebar {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .section {
+            margin-bottom: 25px;
+        }
+
+        .section h3 {
+            color: #667eea;
+            font-size: 0.95em;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .country-select {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .selected-countries-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 12px;
+            min-height: 30px;
+            padding: 8px;
+            background: #f0f7ff;
+            border-radius: 8px;
+            border: 1px solid #d0e8ff;
+        }
+
+        .country-tag {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 500;
+            color: white;
+            background: #667eea;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .country-tag button {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 1.2em;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+        }
+
+        .country-tag button:hover {
+            background: rgba(0, 0, 0, 0.2);
+            transform: scale(1.1);
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+        }
+
+        .checkbox-item label {
+            cursor: pointer;
+            font-size: 0.9em;
+            color: #333;
+        }
+
+        .input-group {
+            margin-bottom: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .input-group label {
+            font-size: 0.85em;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .input-group input,
+        .input-group select {
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.9em;
+            font-family: inherit;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        button {
+            padding: 10px 15px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-danger {
+            background: #e74c3c;
+        }
+
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+
+        .btn-secondary {
+            background: #95a5a6;
+        }
+
+        .btn-secondary:hover {
+            background: #7f8c8d;
+        }
+
+        .accommodation-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .accommodation-item {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .accommodation-item h4 {
+            font-size: 0.9em;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .accommodation-item p {
+            font-size: 0.85em;
+            color: #666;
+            margin: 2px 0;
+        }
+
+        .accommodation-item .btn {
+            font-size: 0.8em;
+            padding: 5px 10px;
+            margin-top: 8px;
+            width: 100%;
+        }
+
+        .city-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .city-item {
+            background: #e8f4f8;
+            padding: 8px 10px;
+            border-radius: 6px;
+            font-size: 0.85em;
+            color: #333;
+            border-left: 3px solid #3498db;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .city-item button {
+            padding: 3px 8px;
+            font-size: 0.75em;
+            background: #e74c3c;
+        }
+
+        .map-container {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+
+        .info-box {
+            background: #e8f4f8;
+            border-left: 4px solid #3498db;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 0.85em;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .legend {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.85em;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 3px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 25px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-content h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .modal-close {
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            color: #999;
+            cursor: pointer;
+            line-height: 20px;
+        }
+
+        .modal-close:hover {
+            color: #333;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .modal-buttons button {
+            flex: 1;
+            padding: 10px;
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+
+            .sidebar {
+                max-height: 400px;
+            }
+
+            .map-container {
+                height: 500px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                max-height: none;
+                max-height: 350px;
+            }
+
+            .map-container {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h2>✈️ Travel Map</h2>
+
+            <div class="info-box">
+                Select countries, add accommodations, and mark visited cities to visualize your travels!
+            </div>
+
+            <!-- Country Selection -->
+            <div class="section">
+                <h3>🌍 Countries Visited </h3>
+                <div class="input-group">
+                    <input type="text" id="countrySearch" placeholder="Search countries..." onkeyup="filterCountries()">
+                </div>
+                <div id="selectedCountriesTags" class="selected-countries-tags"></div>
+                <div class="country-select" id="countrySelect"></div>
+            </div>
+
+            <!-- Country Color Customization -->
+            <div class="section">
+                <h3>🎨 Customize Colors</h3>
+                <div class="input-group">
+                    <label for="colorCountrySelect">Select Country</label>
+                    <select id="colorCountrySelect" onchange="updateColorPicker()">
+                        <option value="">Choose a country...</option>
+                    </select>
+                </div>
+                <div class="input-group" id="colorPickerGroup" style="display: none;">
+                    <label for="colorPicker">Color</label>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <input type="color" id="colorPicker" onchange="updateCountryColor()">
+                        <button onclick="resetCountryColor()" style="background: #95a5a6; flex: 1;">Reset</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Accommodation Section -->
+            <div class="section">
+                <h3>🏨 Accommodations</h3>
+                <div class="input-group">
+                    <label for="accommodationCountry">Country</label>
+                    <select id="accommodationCountry">
+                        <option value="">Select a country...</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="accommodationCity">City/Location</label>
+                    <input type="text" id="accommodationCity" placeholder="e.g., London">
+                </div>
+                <button onclick="addAccommodation()">+ Add Accommodation</button>
+            </div>
+
+            <!-- Accommodation List -->
+            <div class="section">
+                <h3>📍 Your Stays</h3>
+                <div class="accommodation-list" id="accommodationList"></div>
+            </div>
+
+            <!-- Visited Places Section -->
+            <div class="section">
+                <h3>🏙️ Visited Places</h3>
+                <div class="input-group">
+                    <label for="visitedAccommodation">From Accommodation</label>
+                    <select id="visitedAccommodation">
+                        <option value="">Select an accommodation...</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="visitedCity">Place Name</label>
+                    <input type="text" id="visitedCity" placeholder="e.g., Oxford">
+                </div>
+                <button onclick="addVisitedCity()">+ Add Visited Place</button>
+            </div>
+
+            <!-- Visited Places List -->
+            <div class="section">
+                <h3>📍 Your Visited Places</h3>
+                <div class="accommodation-list" id="visitedPlacesList"></div>
+            </div>
+
+            <!-- Clear All -->
+            <button class="btn-secondary" onclick="clearAll()" style="margin-top: auto;">Clear All</button>
+            <div style="display: flex; gap: 10px; margin-top: 10px;">
+                <button onclick="exportData()" style="flex: 1; background: #27ae60;">💾 Export</button>
+                <button onclick="importData()" style="flex: 1; background: #3498db;">📥 Import</button>
+            </div>
+            <input type="file" id="importFile" accept=".json" style="display: none;" onchange="handleFileImport()">
+        </div>
+
+        <!-- Map Container -->
+        <div class="map-container">
+            <div id="map"></div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet-defaulticon-compatibility@0.1.1/leaflet-defaulticon-compatibility.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-defaulticon-compatibility@0.1.1/leaflet-defaulticon-compatibility.css" />
+    
+    <!-- Coordinate Editor Modal -->
+    <div id="coordinateModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeCoordinateModal()">&times;</span>
+            <h3>Edit Coordinates</h3>
+            <div class="input-group">
+                <label for="editLat">Latitude</label>
+                <input type="number" id="editLat" step="0.0001" placeholder="e.g., 51.5074">
+            </div>
+            <div class="input-group">
+                <label for="editLon">Longitude</label>
+                <input type="number" id="editLon" step="0.0001" placeholder="e.g., -0.1278">
+            </div>
+            <div class="modal-buttons">
+                <button class="btn-secondary" onclick="closeCoordinateModal()">Cancel</button>
+                <button onclick="saveCoordinates()" style="background: #27ae60;">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
