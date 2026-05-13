@@ -1,42 +1,34 @@
-// Country data with coordinates for major cities
+// Country data with coordinates for major cities (EU Member States + UK)
+// Palette avoids Red and Blue families to keep markers and lines visible.
 const countryData = {
-    'United Kingdom': { center: [55.3781, -3.4360], color: '#9b59b6' },
-    'Netherlands': { center: [52.1326, 5.2913], color: '#f39c12' },
-    'Germany': { center: [51.1657, 10.4515], color: '#2ecc71' },
-    'France': { center: [46.2276, 2.2137], color: '#1abc9c' },
-    'Spain': { center: [40.4637, -3.7492], color: '#e67e22' },
-    'Italy': { center: [41.8719, 12.5674], color: '#95a5a6' },
-    'Greece': { center: [39.0742, 21.8243], color: '#34495e' },
-    'Portugal': { center: [39.3999, -8.2245], color: '#16a085' },
-    'Belgium': { center: [50.5039, 4.4699], color: '#d35400' },
-    'Switzerland': { center: [46.8182, 8.2275], color: '#27ae60' },
-    'Austria': { center: [47.5162, 14.5501], color: '#2980b9' },
-    'Poland': { center: [51.9194, 19.1451], color: '#8e44ad' },
-    'Czech Republic': { center: [49.8175, 15.4730], color: '#f1c40f' },
-    'Hungary': { center: [47.1625, 19.5033], color: '#c0392b' },
-    'Romania': { center: [45.9432, 24.9668], color: '#7f8c8d' },
-    'Turkey': { center: [38.9637, 35.2433], color: '#bdc3c7' },
-    'Japan': { center: [36.2048, 138.2529], color: '#e74c3c' },
-    'South Korea': { center: [35.9078, 127.7669], color: '#f39c12' },
-    'China': { center: [35.8617, 104.1954], color: '#2ecc71' },
-    'Thailand': { center: [15.8700, 100.9925], color: '#1abc9c' },
-    'Vietnam': { center: [14.0583, 108.2772], color: '#9b59b6' },
-    'Indonesia': { center: [-0.7893, 113.9213], color: '#e67e22' },
-    'Philippines': { center: [12.8797, 121.7740], color: '#95a5a6' },
-    'Malaysia': { center: [4.2105, 101.6964], color: '#34495e' },
-    'Singapore': { center: [1.3521, 103.8198], color: '#16a085' },
-    'India': { center: [20.5937, 78.9629], color: '#d35400' },
-    'United States': { center: [37.0902, -95.7129], color: '#27ae60' },
-    'Canada': { center: [56.1304, -106.3468], color: '#2980b9' },
-    'Mexico': { center: [23.6345, -102.5528], color: '#8e44ad' },
-    'Brazil': { center: [-14.2350, -51.9253], color: '#f1c40f' },
-    'Argentina': { center: [-38.4161, -63.6167], color: '#c0392b' },
-    'Australia': { center: [-25.2744, 133.7751], color: '#7f8c8d' },
-    'New Zealand': { center: [-40.9006, 174.8860], color: '#bdc3c7' },
-    'UAE': { center: [23.4241, 53.8478], color: '#e67e22' },
-    'Saudi Arabia': { center: [23.8859, 45.0792], color: '#2ecc71' },
-    'Egypt': { center: [26.8206, 30.8025], color: '#1abc9c' },
-    'South Africa': { center: [-30.5595, 22.9375], color: '#9b59b6' },
+    'Austria': { center: [47.5162, 14.5501], color: '#95a5a6' }, // Gray
+    'Belgium': { center: [50.5039, 4.4699], color: '#e67e22' }, // Orange
+    'Bulgaria': { center: [42.7339, 25.4858], color: '#27ae60' }, // Green
+    'Croatia': { center: [45.1000, 15.2000], color: '#8e44ad' }, // Purple
+    'Cyprus': { center: [35.1264, 33.4299], color: '#f1c40f' }, // Yellow
+    'Czech Republic': { center: [49.8175, 15.4730], color: '#bdc3c7' }, // Silver
+    'Denmark': { center: [56.2639, 9.5018], color: '#7f8c8d' }, // Asbestos Gray
+    'Estonia': { center: [58.5953, 25.0136], color: '#16a085' }, // Sea Green
+    'Finland': { center: [61.9241, 25.7482], color: '#2ecc71' }, // Emerald
+    'France': { center: [46.2276, 2.2137], color: '#9b59b6' }, // Amethyst Purple
+    'Germany': { center: [51.1657, 10.4515], color: '#27ae60' }, // Nephrite Green
+    'Greece': { center: [39.0742, 21.8243], color: '#f39c12' }, // Orange
+    'Hungary': { center: [47.1625, 19.5033], color: '#e67e22' }, // Carrot Orange
+    'Ireland': { center: [53.1424, -7.6921], color: '#2ecc71' }, // Emerald Green
+    'Italy': { center: [41.8719, 12.5674], color: '#bdc3c7' }, // Silver
+    'Latvia': { center: [56.8796, 24.6032], color: '#8e44ad' }, // Purple
+    'Lithuania': { center: [55.1694, 23.8813], color: '#f1c40f' }, // Yellow
+    'Luxembourg': { center: [49.8153, 6.1296], color: '#9b59b6' }, // Amethyst
+    'Malta': { center: [35.9375, 14.3754], color: '#f39c12' }, // Orange
+    'Netherlands': { center: [52.1326, 5.2913], color: '#e67e22' }, // Carrot
+    'Poland': { center: [51.9194, 19.1451], color: '#95a5a6' }, // Gray
+    'Portugal': { center: [39.3999, -8.2245], color: '#27ae60' }, // Green
+    'Romania': { center: [45.9432, 24.9668], color: '#7f8c8d' }, // Asbestos
+    'Slovakia': { center: [48.6690, 19.6990], color: '#16a085' }, // Sea Green
+    'Slovenia': { center: [46.1512, 14.9955], color: '#2ecc71' }, // Emerald
+    'Spain': { center: [40.4637, -3.7492], color: '#f1c40f' }, // Yellow
+    'Sweden': { center: [60.1282, 18.6435], color: '#8e44ad' }, // Purple
+    'United Kingdom': { center: [55.3781, -3.4360], color: '#9b59b6' }  // Purple
 };
 
 // Global data storage
