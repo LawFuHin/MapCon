@@ -77,6 +77,10 @@ function initMap() {
     const accommodationsTopPane = map.createPane('accommodationsTop');
     accommodationsTopPane.style.zIndex = 620;
 
+    // Accommodation labels above polylines
+    const accommodationLabelsPane = map.createPane('accommodationLabels');
+    accommodationLabelsPane.style.zIndex = 630;
+
     // Load country boundaries GeoJSON
     fetch('https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson')
         .then(response => response.json())
@@ -114,20 +118,49 @@ function initMap() {
     const legend = L.control({ position: 'bottomright' });
     legend.onAdd = function(map) {
         const div = L.DomUtil.create('div', 'legend');
+        let isExpanded = false; // Start collapsed
+        
         div.innerHTML = `
-            <div class="legend-item">
-                <div class="legend-color" style="background: #e74c3c;"></div>
-                <span>Accommodation → Accommodation</span>
+            <div class="legend-header">
+                <strong style="flex: 1;">Legend</strong>
+                <button class="legend-toggle-btn" title="Toggle legend">
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
             </div>
-            <div class="legend-item">
-                <div class="legend-color" style="background: #3498db;"></div>
-                <span>Accommodation → Visited Places</span>
-            </div>
-            <div class="legend-item">
-                <div class="legend-color" style="background: #d3d3d3;"></div>
-                <span>Not Visited</span>
+            <div class="legend-content">
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #e74c3c;"></div>
+                    <span>Accommodation → Accommodation</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #3498db;"></div>
+                    <span>Accommodation → Visited Places</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #d3d3d3;"></div>
+                    <span>Not Visited</span>
+                </div>
             </div>
         `;
+        
+        const toggleBtn = div.querySelector('.legend-toggle-btn');
+        const header = div.querySelector('.legend-header');
+        const content = div.querySelector('.legend-content');
+        
+        const toggleLegend = function(e) {
+            e.stopPropagation();
+            isExpanded = !isExpanded;
+            if (isExpanded) {
+                content.classList.add('expanded');
+                toggleBtn.innerHTML = '<i class="fa-solid fa-chevron-up"></i>';
+            } else {
+                content.classList.remove('expanded');
+                toggleBtn.innerHTML = '<i class="fa-solid fa-chevron-down"></i>';
+            }
+        };
+        
+        header.addEventListener('click', toggleLegend);
+        
         return div;
     };
     legend.addTo(map);
@@ -449,7 +482,7 @@ function updateMap() {
             
             // Add label for accommodation
             const accLabel = L.marker(acc.coords, {
-                pane: 'accommodationsTop',
+                pane: 'accommodationLabels',
                 icon: L.divIcon({
                     html: `<div style="
                         background: rgba(231, 76, 60, 0.9);
