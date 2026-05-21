@@ -53,6 +53,7 @@ let layers = {
 };
 let showNonSelectedCountries = true;
 let showRoads = true;
+let timelineSliderValue = 100;
 let geojsonLayer = null;
 let customCountryColors = {};
 
@@ -441,16 +442,46 @@ function getCountryColor(country) {
 
 function refreshGeojsonCountryStyles() {
     if (!geojsonLayer) return;
+
+    const N = accommodations.length;
+    let K;
+    if (timelineSliderValue === 0) {
+        K = 0;
+    } else {
+        K = Math.max(1, Math.round((timelineSliderValue / 100) * N));
+    }
+
+    // Determine active countries under current slider limit K
+    const activeCountries = new Set();
+    if (timelineSliderValue === 100 || K >= N) {
+        selectedCountries.forEach(c => activeCountries.add(c));
+    } else {
+        accommodations.slice(0, K).forEach(acc => {
+            if (selectedCountries.has(acc.country)) {
+                activeCountries.add(acc.country);
+            }
+        });
+        visitedCities.forEach(city => {
+            if (city.accommodationIndex < K) {
+                const parentAcc = accommodations[city.accommodationIndex];
+                if (parentAcc && selectedCountries.has(parentAcc.country)) {
+                    activeCountries.add(parentAcc.country);
+                }
+            }
+        });
+    }
+
     geojsonLayer.setStyle(function(feature) {
         const countryName = appCountryKeyFromGeoJSON(feature.properties.name);
+        const isActive = activeCountries.has(countryName);
         const isSelected = selectedCountries.has(countryName);
-        const color = isSelected ? getCountryColor(countryName) : '#d3d3d3';
+        const color = isActive ? getCountryColor(countryName) : '#d3d3d3';
         return {
             fillColor: color,
             weight: isSelected ? 2 : 1,
             opacity: 1,
             color: isSelected ? '#333' : '#bbb',
-            fillOpacity: isSelected ? 0.7 : 0.2
+            fillOpacity: isActive ? 0.7 : (isSelected ? 0.15 : 0.2)
         };
     });
 }
@@ -465,11 +496,25 @@ function updateMap() {
     layers.visitedCityLines = [];
     layers.markers = [];
 
+    const N = accommodations.length;
+    let K;
+    if (timelineSliderValue === 0) {
+        K = 0;
+    } else {
+        K = Math.max(1, Math.round((timelineSliderValue / 100) * N));
+    }
+
+    const visibleAccommodations = accommodations.slice(0, K);
+    const visibleVisitedCities = visitedCities.filter(city => city.accommodationIndex < K);
+
+    // Update GeoJSON styles dynamically based on the timeline value
+    refreshGeojsonCountryStyles();
+
     // Draw accommodation lines (red)
-    if (showRoads && accommodations.length > 1) {
-        for (let i = 0; i < accommodations.length - 1; i++) {
-            const from = accommodations[i];
-            const to = accommodations[i + 1];
+    if (showRoads && visibleAccommodations.length > 1) {
+        for (let i = 0; i < visibleAccommodations.length - 1; i++) {
+            const from = visibleAccommodations[i];
+            const to = visibleAccommodations[i + 1];
             if (from.coords && to.coords) {
                 const line = L.polyline([from.coords, to.coords], {
                     pane: 'accommodationsTop',
@@ -485,7 +530,7 @@ function updateMap() {
 
     // Draw visited cities lines (blue) and add markers
     if (showRoads) {
-        visitedCities.forEach(city => {
+        visibleVisitedCities.forEach(city => {
             if (city.accommodationCoords && city.coords) {
                 const line = L.polyline([city.accommodationCoords, city.coords], {
                     color: '#3498db',
@@ -530,7 +575,7 @@ function updateMap() {
     }
 
     // Add accommodation markers
-    accommodations.forEach(acc => {
+    visibleAccommodations.forEach(acc => {
         if (acc.coords) {
             const marker = L.circleMarker(acc.coords, {
                 pane: 'accommodationsTop',
@@ -566,6 +611,57 @@ function updateMap() {
             layers.markers.push(accLabel);
         }
     });
+}
+
+// Timeline slider change handler
+function onTimelineSliderChange(val) {
+    timelineSliderValue = parseInt(val, 10);
+    
+    // Update label
+    const labelEl = document.getElementById('timelineValueLabel');
+    if (labelEl) {
+        const N = accommodations.length;
+        if (N === 0) {
+            labelEl.textContent = 'No accommodations';
+        } else {
+            let K;
+            if (timelineSliderValue === 0) {
+                K = 0;
+            } else {
+                K = Math.max(1, Math.round((timelineSliderValue / 100) * N));
+            }
+            
+            if (timelineSliderValue === 100) {
+                labelEl.textContent = `100% (Show All: ${N}/${N})`;
+            } else if (timelineSliderValue === 0) {
+                labelEl.textContent = `0% (Show None)`;
+            } else {
+                const lastAcc = accommodations[K - 1];
+                const lastCityName = lastAcc ? lastAcc.city : '';
+                labelEl.textContent = `${timelineSliderValue}% (Stop at: ${lastCityName} - ${K}/${N})`;
+            }
+        }
+    }
+    
+    updateMap();
+}
+
+// Reset timeline slider to 100%
+function resetTimelineSlider() {
+    timelineSliderValue = 100;
+    const sliderEl = document.getElementById('timelineSlider');
+    if (sliderEl) {
+        sliderEl.value = 100;
+    }
+    const labelEl = document.getElementById('timelineValueLabel');
+    if (labelEl) {
+        const N = accommodations.length;
+        if (N === 0) {
+            labelEl.textContent = 'No accommodations';
+        } else {
+            labelEl.textContent = `100% (Show All: ${N}/${N})`;
+        }
+    }
 }
 
 // Geocode city name to coordinates (simplified - uses country center + offset)
@@ -631,6 +727,7 @@ async function addAccommodation() {
     // Update UI
     renderAccommodationList();
     updateVisitedAccommodationSelect();
+    resetTimelineSlider();
     updateMap();
     updateSidebarCounts();
 }
@@ -696,6 +793,7 @@ function swapAccommodationsAdjacent(lowerIndex) {
     renderAccommodationList();
     renderVisitedPlacesList();
     updateVisitedAccommodationSelect();
+    resetTimelineSlider();
     updateMap();
 }
 
@@ -724,6 +822,7 @@ function removeAccommodation(index) {
     renderAccommodationList();
     renderVisitedPlacesList();
     updateVisitedAccommodationSelect();
+    resetTimelineSlider();
     updateMap();
     updateSidebarCounts();
 }
@@ -749,6 +848,7 @@ function updateAccommodation(index) {
     renderAccommodationList();
     renderVisitedPlacesList();
     updateVisitedAccommodationSelect();
+    resetTimelineSlider();
     updateMap();
     updateSidebarCounts();
 }
@@ -802,6 +902,7 @@ async function addVisitedCity() {
 
     // Update UI
     renderVisitedPlacesList();
+    resetTimelineSlider();
     updateMap();
 }
 
@@ -833,6 +934,7 @@ function renderVisitedPlacesList() {
 function removeVisitedCity(index) {
     visitedCities.splice(index, 1);
     renderVisitedPlacesList();
+    resetTimelineSlider();
     updateMap();
 }
 
@@ -849,6 +951,7 @@ function updateVisitedPlace(index) {
     visitedCities.splice(index, 1);
     
     renderVisitedPlacesList();
+    resetTimelineSlider();
     updateMap();
 }
 
@@ -881,6 +984,7 @@ function clearAll() {
         updateAccommodationCountrySelect();
         updateColorCountrySelect();
         updateVisitedAccommodationSelect();
+        resetTimelineSlider();
         updateMap();
     }
 }
@@ -944,6 +1048,7 @@ function applyTravelData(data) {
     updateAccommodationCountrySelect();
     updateColorCountrySelect();
     updateVisitedAccommodationSelect();
+    resetTimelineSlider();
     updateMap();
     updateSidebarCounts();
 }

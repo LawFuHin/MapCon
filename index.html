@@ -492,6 +492,103 @@
             border-bottom: 1px solid #1a73e8;
         }
 
+        .map-timeline-container {
+            background: #fff;
+            border-bottom: 1px solid #e0e0e0;
+            padding: 12px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            z-index: 1000;
+        }
+
+        .timeline-title-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85em;
+            font-weight: 500;
+            color: #5f6368;
+        }
+
+        .timeline-title {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .timeline-value-label {
+            font-weight: 600;
+            color: #1a73e8;
+        }
+
+        .timeline-slider-wrapper {
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+
+        .timeline-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: #e0e0e0;
+            outline: none;
+            margin: 0;
+            cursor: pointer;
+        }
+
+        .timeline-slider::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 6px;
+            cursor: pointer;
+            background: #e0e0e0;
+            border-radius: 3px;
+        }
+
+        .timeline-slider::-webkit-slider-thumb {
+            height: 16px;
+            width: 16px;
+            border-radius: 50%;
+            background: #1a73e8;
+            cursor: pointer;
+            -webkit-appearance: none;
+            margin-top: -5px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+            transition: transform 0.1s ease, background-color 0.1s ease;
+        }
+
+        .timeline-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            background: #1557b0;
+        }
+
+        .timeline-slider::-moz-range-track {
+            width: 100%;
+            height: 6px;
+            cursor: pointer;
+            background: #e0e0e0;
+            border-radius: 3px;
+        }
+
+        .timeline-slider::-moz-range-thumb {
+            height: 16px;
+            width: 16px;
+            border-radius: 50%;
+            background: #1a73e8;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+            transition: transform 0.1s ease, background-color 0.1s ease;
+        }
+
+        .timeline-slider::-moz-range-thumb:hover {
+            transform: scale(1.2);
+            background: #1557b0;
+        }
+
         .info-box {
             background: #fef7e0;
             border-left: 4px solid #fbbc04;
@@ -503,11 +600,43 @@
         }
 
         .legend {
-            background: rgba(255, 255, 255, 0.98);
+            background: rgba(255, 255, 255, 0.95);
             padding: 12px;
             border-radius: 4px;
             font-size: 0.85em;
             box-shadow: 0 1px 3px 0 rgba(60,64,67,.3);
+            border: none;
+        }
+
+        /* Unified Leaflet Zoom Controls Styling */
+        .leaflet-bar {
+            border: none !important;
+            box-shadow: 0 1px 3px 0 rgba(60,64,67,.3) !important;
+            border-radius: 4px !important;
+            overflow: hidden;
+        }
+        
+        .leaflet-bar a {
+            background-color: rgba(255, 255, 255, 0.95) !important;
+            color: #5f6368 !important;
+            border-bottom: 1px solid #e0e0e0 !important;
+            width: 40px !important;
+            height: 40px !important;
+            line-height: 40px !important;
+            font-size: 24px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            transition: all 0.2s ease !important;
+        }
+        
+        .leaflet-bar a:hover {
+            background-color: #fff !important;
+            color: #1a73e8 !important;
+        }
+        
+        .leaflet-bar a:last-child {
+            border-bottom: none !important;
         }
 
         .legend-header {
@@ -782,13 +911,24 @@
 
         <!-- Map Container -->
         <div class="map-container" id="mapContainer">
-            <button type="button" id="mapFullscreenToggle" class="map-fullscreen-toggle" onclick="toggleMapFullscreen()" title="Fullscreen map" aria-label="Toggle map fullscreen" aria-pressed="false">
-                <i class="fa-solid fa-expand"></i>
-            </button>
-            <a href="https://buymeacoffee.com/williamlaw" target="_blank" class="bmc-floating-btn" title="Support me on Buy Me a Coffee" aria-label="Support me on Buy Me a Coffee">
-                <i class="fa-solid fa-mug-hot"></i>
-            </a>
-            <div id="map"></div>
+            <div class="map-timeline-container">
+                <div class="timeline-title-wrapper">
+                    <span class="timeline-title"><i class="fa-solid fa-clock-rotate-left"></i> Trip Timeline</span>
+                    <span id="timelineValueLabel" class="timeline-value-label">100% (Show All)</span>
+                </div>
+                <div class="timeline-slider-wrapper">
+                    <input type="range" id="timelineSlider" min="0" max="100" value="100" class="timeline-slider" oninput="onTimelineSliderChange(this.value)">
+                </div>
+            </div>
+            <div style="flex: 1; position: relative; display: flex; flex-direction: column; min-height: 0;">
+                <button type="button" id="mapFullscreenToggle" class="map-fullscreen-toggle" onclick="toggleMapFullscreen()" title="Fullscreen map" aria-label="Toggle map fullscreen" aria-pressed="false">
+                    <i class="fa-solid fa-expand"></i>
+                </button>
+                <a href="https://buymeacoffee.com/williamlaw" target="_blank" class="bmc-floating-btn" title="Support me on Buy Me a Coffee" aria-label="Support me on Buy Me a Coffee">
+                    <i class="fa-solid fa-mug-hot"></i>
+                </a>
+                <div id="map"></div>
+            </div>
             <div class="map-attribution-footer">
                 <span>Vibe-coded by <a href="https://buymeacoffee.com/williamlaw" target="_blank">William Law</a></span>
                 <span>&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap contributors</a> &copy; <a href="https://carto.com/attributions" target="_blank">CARTO</a></span>
