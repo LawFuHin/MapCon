@@ -58,7 +58,7 @@ let geojsonLayer = null;
 let customCountryColors = {};
 
 
-let currentLang = 'zh-TW';
+let currentLang = 'zh-HK';
 let localesData = {};
 
 async function loadLocales() {
@@ -132,7 +132,7 @@ async function changeLanguage(lang, loadDefault = true) {
 
     onTimelineSliderChange(timelineSliderValue);
     
-    if (tripTitle === localesData['en']['default_trip_title'] || tripTitle === localesData['zh-TW']['default_trip_title'] || tripTitle === 'Travel Map') {
+    if (tripTitle === localesData['en']['default_trip_title'] || tripTitle === localesData['zh-HK']['default_trip_title'] || tripTitle === 'Travel Map') {
         tripTitle = t('default_trip_title');
         syncTripTitleUI();
     }
@@ -1330,7 +1330,7 @@ function resetCountryColor() {
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', async function() {
     await loadLocales();
-    await changeLanguage('zh-TW', false);
+    await changeLanguage('zh-HK', false);
     initMap();
     initMapFullscreenUi();
     initCountrySelect();
