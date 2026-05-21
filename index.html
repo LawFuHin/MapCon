@@ -402,6 +402,8 @@
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 1px 3px 0 rgba(60,64,67,.3), 0 4px 8px 3px rgba(60,64,67,.15);
+            display: flex;
+            flex-direction: column;
         }
 
         .map-container:fullscreen,
@@ -457,7 +459,37 @@
 
         #map {
             width: 100%;
-            height: 100%;
+            flex: 1;
+            min-height: 0;
+        }
+
+        .map-attribution-footer {
+            display: flex;
+            justify-content: space-between;
+            font-size: 7px;
+            color: #7f8c8d;
+            background: #f8f9fa;
+            padding: 2px 8px;
+            border-top: 1px solid #e0e0e0;
+            line-height: 1.2;
+            z-index: 999;
+            opacity: 0.35;
+            transition: opacity 0.2s ease;
+        }
+
+        .map-attribution-footer:hover {
+            opacity: 0.8;
+        }
+
+        .map-attribution-footer a {
+            color: inherit;
+            text-decoration: none;
+            border-bottom: 1px dotted #7f8c8d;
+        }
+
+        .map-attribution-footer a:hover {
+            color: #1a73e8;
+            border-bottom: 1px solid #1a73e8;
         }
 
         .info-box {
@@ -481,24 +513,14 @@
         .legend-header {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
             margin-bottom: 0;
             cursor: pointer;
-            color: #202124;
-        }
-
-        .legend-toggle-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 0.9em;
-            padding: 0;
             color: #5f6368;
-            display: flex;
-            align-items: center;
+            transition: color 0.2s ease;
         }
 
-        .legend-toggle-btn:hover {
+        .legend-header:hover {
             color: #1a73e8;
         }
 
@@ -767,6 +789,10 @@
                 <i class="fa-solid fa-mug-hot"></i>
             </a>
             <div id="map"></div>
+            <div class="map-attribution-footer">
+                <span>Vibe-coded by <a href="https://buymeacoffee.com/williamlaw" target="_blank">William Law</a></span>
+                <span>&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap contributors</a> &copy; <a href="https://carto.com/attributions" target="_blank">CARTO</a></span>
+            </div>
         </div>
     </div>
 

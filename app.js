@@ -61,7 +61,7 @@ let tripTitle = DEFAULT_TRIP_TITLE;
 
 // Initialize map
 function initMap() {
-    map = L.map('map').setView([48.8566, 2.3522], 5);
+    map = L.map('map', { attributionControl: false }).setView([48.8566, 2.3522], 5);
     
     // Use a minimal map layer that shows geography but no labels
     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
@@ -121,11 +121,8 @@ function initMap() {
         let isExpanded = false; // Start collapsed
         
         div.innerHTML = `
-            <div class="legend-header">
-                <strong style="flex: 1;">Legend</strong>
-                <button class="legend-toggle-btn" title="Toggle legend">
-                    <i class="fa-solid fa-chevron-down"></i>
-                </button>
+            <div class="legend-header" title="Toggle map legend">
+                <i class="fa-solid fa-list-ul" style="font-size: 14px; color: #5f6368;"></i>
             </div>
             <div class="legend-content">
                 <div class="legend-item">
@@ -143,7 +140,6 @@ function initMap() {
             </div>
         `;
         
-        const toggleBtn = div.querySelector('.legend-toggle-btn');
         const header = div.querySelector('.legend-header');
         const content = div.querySelector('.legend-content');
         
@@ -152,10 +148,8 @@ function initMap() {
             isExpanded = !isExpanded;
             if (isExpanded) {
                 content.classList.add('expanded');
-                toggleBtn.innerHTML = '<i class="fa-solid fa-chevron-up"></i>';
             } else {
                 content.classList.remove('expanded');
-                toggleBtn.innerHTML = '<i class="fa-solid fa-chevron-down"></i>';
             }
         };
         
