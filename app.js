@@ -170,12 +170,28 @@ function getMapContainerEl() {
     return document.getElementById('mapContainer');
 }
 
+let isPseudoFullscreen = false;
+
 function isMapFullscreen() {
     const fs = document.fullscreenElement
         || document.webkitFullscreenElement
         || document.mozFullScreenElement
         || document.msFullscreenElement;
-    return fs && fs.id === 'mapContainer';
+    return (fs && fs.id === 'mapContainer') || isPseudoFullscreen;
+}
+
+function togglePseudoFullscreen() {
+    const el = getMapContainerEl();
+    if (!el) return;
+    
+    isPseudoFullscreen = !isPseudoFullscreen;
+    if (isPseudoFullscreen) {
+        el.classList.add('pseudo-fullscreen');
+    } else {
+        el.classList.remove('pseudo-fullscreen');
+    }
+    
+    onMapFullscreenChanged();
 }
 
 function toggleMapFullscreen() {
@@ -189,18 +205,29 @@ function toggleMapFullscreen() {
         || el.webkitRequestFullscreen
         || el.mozRequestFullScreen
         || el.msRequestFullscreen;
+        
     if (!requestFs) {
-        alert('Fullscreen is not supported in this browser.');
+        // Fall back to pseudo-fullscreen on devices that don't support standard Fullscreen API (like iPhone)
+        togglePseudoFullscreen();
         return;
     }
 
-    if (isMapFullscreen()) {
-        if (document.exitFullscreen) void document.exitFullscreen();
-        else if (document.webkitExitFullscreen) void document.webkitExitFullscreen();
-        else if (document.mozCancelFullScreen) void document.mozCancelFullScreen();
-        else if (document.msExitFullscreen) void document.msExitFullscreen();
-    } else {
-        void requestFs.call(el);
+    try {
+        if (isMapFullscreen()) {
+            if (isPseudoFullscreen) {
+                togglePseudoFullscreen();
+            } else {
+                if (document.exitFullscreen) void document.exitFullscreen();
+                else if (document.webkitExitFullscreen) void document.webkitExitFullscreen();
+                else if (document.mozCancelFullScreen) void document.mozCancelFullScreen();
+                else if (document.msExitFullscreen) void document.msExitFullscreen();
+            }
+        } else {
+            void requestFs.call(el);
+        }
+    } catch (err) {
+        console.warn('Native fullscreen request failed, using pseudo-fullscreen fallback:', err);
+        togglePseudoFullscreen();
     }
 }
 
@@ -225,17 +252,42 @@ function onMapFullscreenChanged() {
 }
 
 function initMapFullscreenUi() {
-    const el = getMapContainerEl();
     const btn = document.getElementById('mapFullscreenToggle');
-    const canFs = el && (el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen || el.msRequestFullscreen);
-    if (btn && !canFs) {
-        btn.disabled = true;
-        btn.title = 'Fullscreen not supported';
+    // Ensure button is enabled since we have a pseudo-fullscreen fallback
+    if (btn) {
+        btn.disabled = false;
+        btn.title = 'Fullscreen map';
     }
-    document.addEventListener('fullscreenchange', onMapFullscreenChanged);
-    document.addEventListener('webkitfullscreenchange', onMapFullscreenChanged);
+    document.addEventListener('fullscreenchange', function() {
+        // If exiting native fullscreen, clear pseudo-fullscreen just in case
+        if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+            const el = getMapContainerEl();
+            if (el && el.classList.contains('pseudo-fullscreen')) {
+                el.classList.remove('pseudo-fullscreen');
+                isPseudoFullscreen = false;
+            }
+        }
+        onMapFullscreenChanged();
+    });
+    document.addEventListener('webkitfullscreenchange', function() {
+        if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+            const el = getMapContainerEl();
+            if (el && el.classList.contains('pseudo-fullscreen')) {
+                el.classList.remove('pseudo-fullscreen');
+                isPseudoFullscreen = false;
+            }
+        }
+        onMapFullscreenChanged();
+    });
     document.addEventListener('mozfullscreenchange', onMapFullscreenChanged);
     document.addEventListener('MSFullscreenChange', onMapFullscreenChanged);
+
+    // Escape key listener for pseudo-fullscreen
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && isPseudoFullscreen) {
+            togglePseudoFullscreen();
+        }
+    });
 }
 
 // Initialize country selection
