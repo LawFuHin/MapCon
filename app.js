@@ -115,7 +115,7 @@ function initMap() {
         .catch(error => console.error('Error loading GeoJSON:', error));
 
     // Add legend
-    const legend = L.control({ position: 'bottomright' });
+    const legend = L.control({ position: 'bottomleft' });
     legend.onAdd = function(map) {
         const div = L.DomUtil.create('div', 'legend');
         let isExpanded = false; // Start collapsed
