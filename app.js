@@ -172,6 +172,18 @@ function initMap() {
     fetch('https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson')
         .then(response => response.json())
         .then(data => {
+            const allCountries = Array.from(new Set(data.features.map(f => f.properties.name))).sort();
+            const select = document.getElementById('globalCountrySelect');
+            if (select) {
+                allCountries.forEach(name => {
+                    if (!countryData[name]) {
+                        const option = document.createElement('option');
+                        option.value = name;
+                        option.textContent = name;
+                        select.appendChild(option);
+                    }
+                });
+            }
             geojsonLayer = L.geoJSON(data, {
                 pane: 'countriesPane',
                 style: function(feature) {
@@ -1163,6 +1175,11 @@ function applyTravelData(data) {
     resetTimelineSlider();
     updateMap();
     updateSidebarCounts();
+    
+    // Auto-center map on the first accommodation
+    if (accommodations.length > 0 && accommodations[0].coords) {
+        map.setView(accommodations[0].coords, map.getZoom());
+    }
 }
 
 async function tryLoadDefaultJson(lang = currentLang) {
@@ -1354,3 +1371,27 @@ document.addEventListener('DOMContentLoaded', async function() {
         togglePseudoFullscreen();
     }
 });
+
+// Add custom country from global dropdown
+function addCustomCountry() {
+    const select = document.getElementById('globalCountrySelect');
+    const countryName = select.value;
+    
+    if (!countryName) return;
+    
+    // Add to countryData dynamically
+    if (!countryData[countryName]) {
+        countryData[countryName] = { center: [0,0], color: '#1a73e8' };
+    }
+    
+    const localizedName = tCountry(countryName);
+    selectedCountries.add(localizedName);
+    
+    initCountrySelect();
+    updateSelectedCountriesTags();
+    updateAccommodationCountrySelect();
+    updateColorCountrySelect();
+    updateMap();
+    
+    select.value = "";
+}

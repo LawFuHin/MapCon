@@ -837,6 +837,12 @@
                 <div class="input-group">
                     <input type="text" id="countrySearch" data-i18n-placeholder="search_countries_placeholder" placeholder="Search countries..." onkeyup="filterCountries()">
                 </div>
+                <div class="input-group" style="display: flex; gap: 8px; margin-top: 5px;">
+                    <select id="globalCountrySelect" style="flex: 1; margin: 0; padding: 6px 10px;" aria-label="Add custom country">
+                        <option value="" data-i18n="select_global_country">Select a global country...</option>
+                    </select>
+                    <button type="button" class="btn-primary" onclick="addCustomCountry()" style="white-space: nowrap; font-size: 14px; padding: 6px 12px; margin: 0;">➕ <span data-i18n="add_btn">Add</span></button>
+                </div>
                 <div id="selectedCountriesTags" class="selected-countries-tags"></div>
                 <div class="country-select" id="countrySelect"></div>
             </div>

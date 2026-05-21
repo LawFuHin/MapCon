@@ -97,7 +97,9 @@
       "Spain": "Spain",
       "Sweden": "Sweden",
       "United Kingdom": "United Kingdom"
-    }
+    },
+    "select_global_country": "Select a global country...",
+    "add_btn": "Add"
   },
   "zh-HK": {
     "title_page": "旅遊地圖視覺化",
@@ -197,6 +199,8 @@
       "Spain": "西班牙",
       "Sweden": "瑞典",
       "United Kingdom": "英國"
-    }
+    },
+    "select_global_country": "選擇全球國家...",
+    "add_btn": "新增"
   }
 }
