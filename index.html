@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Travel Map Visualizer</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✈️</text></svg>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <style>
@@ -74,6 +75,32 @@
         .trip-title-input:focus {
             outline: none;
             border-bottom-color: #4285f4;
+        }
+
+        .sidebar-toggle-btn {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: none;
+            border: none;
+            color: #5f6368;
+            font-size: 1.1em;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: background 0.2s, color 0.2s;
+            flex-shrink: 0;
+            width: 36px;
+            height: 36px;
+        }
+
+        .sidebar-toggle-btn:hover {
+            background: #f1f3f4;
+            color: #1a73e8;
+        }
+
+        .sidebar-toggle-btn i {
+            transition: transform 0.2s ease;
         }
 
         .section h3 .count-pill {
@@ -383,7 +410,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 8px;
+            margin-bottom: 0;
             cursor: pointer;
             color: #202124;
         }
@@ -409,6 +436,7 @@
 
         .legend-content.expanded {
             display: block;
+            margin-top: 8px;
         }
 
         .legend-item {
@@ -508,24 +536,47 @@
         @media (max-width: 768px) {
             body {
                 padding: 8px;
+                height: 100vh;
+                overflow: hidden;
             }
 
             .container {
                 display: flex;
                 flex-direction: column;
                 gap: 8px;
-                height: auto;
+                height: 100%;
             }
 
             .sidebar {
                 flex: 0 0 auto;
-                max-height: 350px;
+                max-height: 70vh;
                 border-radius: 8px;
-                padding: 16px;
+                padding: 12px;
+                overflow-y: auto;
+            }
+
+            /* Collapsed state is default on mobile */
+            .sidebar:not(.expanded) .sidebar-content {
+                display: none;
+            }
+
+            .sidebar:not(.expanded) .sidebar-title-block {
+                margin-bottom: 0;
+                padding-bottom: 0;
+                border-bottom: none;
+            }
+
+            .sidebar.expanded .sidebar-toggle-btn i {
+                transform: rotate(180deg);
+            }
+
+            .sidebar-toggle-btn {
+                display: flex;
             }
 
             .map-container {
-                height: 400px;
+                flex: 1;
+                height: auto;
                 border-radius: 8px;
             }
         }
@@ -539,10 +590,14 @@
                 <div class="trip-title-row">
                     <span class="plane-icon" aria-hidden="true">✈️</span>
                     <input type="text" id="tripTitleInput" class="trip-title-input" value="Travel Map" maxlength="120" placeholder="Trip name" aria-label="Trip map title" oninput="onTripTitleInput()">
+                    <button type="button" id="sidebarToggleBtn" class="sidebar-toggle-btn" onclick="toggleSidebar()" aria-label="Toggle settings panel">
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
                 </div>
             </div>
 
-            <div class="info-box">
+            <div class="sidebar-content" id="sidebarContent">
+                <div class="info-box">
                 Select countries, add accommodations, and mark visited cities to visualize your travels!
             </div>
 
@@ -625,6 +680,7 @@
                 <button onclick="importData()" style="flex: 1; background: #3498db;">📥 Import</button>
             </div>
             <input type="file" id="importFile" accept=".json" style="display: none;" onchange="handleFileImport()">
+            </div>
         </div>
 
         <!-- Map Container -->

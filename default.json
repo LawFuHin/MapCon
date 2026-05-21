@@ -13,7 +13,10 @@
     "Slovakia",
     "Croatia",
     "Malta",
-    "Portugal"
+    "Portugal",
+    "Spain",
+    "France",
+    "Switzerland"
   ],
   "accommodations": [
     {
@@ -110,6 +113,134 @@
       "coords": [
         41.1502195,
         -8.6103497
+      ]
+    },
+    {
+      "city": "Vila do Conde",
+      "country": "Portugal",
+      "coords": [
+        41.3540398,
+        -8.7435403
+      ]
+    },
+    {
+      "city": "Esposende",
+      "country": "Portugal",
+      "coords": [
+        41.5315251,
+        -8.7792538
+      ]
+    },
+    {
+      "city": "Viana do Castelo",
+      "country": "Portugal",
+      "coords": [
+        41.6935131,
+        -8.828277
+      ]
+    },
+    {
+      "city": "Caminha",
+      "country": "Portugal",
+      "coords": [
+        41.8492014,
+        -8.7726602
+      ]
+    },
+    {
+      "city": "O Serrallo",
+      "country": "Spain",
+      "coords": [
+        42.0365273,
+        -8.8796298
+      ]
+    },
+    {
+      "city": "A Ramallosa",
+      "country": "Spain",
+      "coords": [
+        42.1229069,
+        -8.8062555
+      ]
+    },
+    {
+      "city": "Vigo",
+      "country": "Spain",
+      "coords": [
+        42.1986395,
+        -8.727956
+      ]
+    },
+    {
+      "city": "Redondela",
+      "country": "Spain",
+      "coords": [
+        42.279914,
+        -8.6163366
+      ]
+    },
+    {
+      "city": "Pontevedra",
+      "country": "Spain",
+      "coords": [
+        42.428065,
+        -8.6041447
+      ]
+    },
+    {
+      "city": "Caldas de Reis",
+      "country": "Spain",
+      "coords": [
+        42.6182783,
+        -8.661358
+      ]
+    },
+    {
+      "city": "Padron",
+      "country": "Spain",
+      "coords": [
+        42.7597656,
+        -8.6236363
+      ]
+    },
+    {
+      "city": "Santiago de Compostela",
+      "country": "Spain",
+      "coords": [
+        42.9064576,
+        -8.5192983
+      ]
+    },
+    {
+      "city": "Madrid",
+      "country": "Spain",
+      "coords": [
+        40.416782,
+        -3.703507
+      ]
+    },
+    {
+      "city": "Paris",
+      "country": "France",
+      "coords": [
+        48.8534951,
+        2.3483915
+      ]
+    },
+    {
+      "city": "Lucerne",
+      "country": "Switzerland",
+      "coords": [
+        47.052144,
+        8.3058123
+      ]
+    },
+    {
+      "city": "Grindelwald",
+      "country": "Switzerland",
+      "coords": [
+        46.6242733,
+        8.0367462
       ]
     }
   ],
@@ -648,5 +779,5 @@
       ]
     }
   ],
-  "exportDate": "2026-05-13T20:57:39.047Z"
+  "exportDate": "2026-05-21T16:26:16.730Z"
 }

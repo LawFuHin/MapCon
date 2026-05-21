@@ -61,7 +61,7 @@ let tripTitle = DEFAULT_TRIP_TITLE;
 
 // Initialize map
 function initMap() {
-    map = L.map('map').setView([20, 0], 2);
+    map = L.map('map').setView([48.8566, 2.3522], 5);
     
     // Use a minimal map layer that shows geography but no labels
     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
@@ -250,6 +250,23 @@ function onMapFullscreenChanged() {
         }, 200);
     }
 }
+
+function toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    if (!sidebar) return;
+    
+    sidebar.classList.toggle('expanded');
+    
+    if (typeof map !== 'undefined' && map) {
+        requestAnimationFrame(function() {
+            map.invalidateSize(true);
+        });
+        setTimeout(function() {
+            map.invalidateSize(true);
+        }, 200);
+    }
+}
+
 
 function initMapFullscreenUi() {
     const btn = document.getElementById('mapFullscreenToggle');
