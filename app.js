@@ -1116,4 +1116,10 @@ document.addEventListener('DOMContentLoaded', async function() {
         updateMap();
     }
     syncTripTitleUI();
+
+    // Check for ?fullscreen=true query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('fullscreen') === 'true') {
+        togglePseudoFullscreen();
+    }
 });
