@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Travel Map Visualizer</title>
+    <title data-i18n="title_page">Travel Map Visualizer</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✈️</text></svg>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
@@ -778,9 +778,9 @@
                 overflow-y: auto;
             }
 
-            /* Collapsed state is default on mobile */
-            .sidebar:not(.expanded) .sidebar-content {
-                display: none;
+            .sidebar:not(.expanded) .sidebar-content,
+            .sidebar:not(.expanded) .language-selector-group {
+                display: none !important;
             }
 
             .sidebar:not(.expanded) .sidebar-title-block {
@@ -812,23 +812,30 @@
             <div class="sidebar-title-block">
                 <div class="trip-title-row">
                     <span class="plane-icon" aria-hidden="true">✈️</span>
-                    <input type="text" id="tripTitleInput" class="trip-title-input" value="Travel Map" maxlength="120" placeholder="Trip name" aria-label="Trip map title" oninput="onTripTitleInput()">
+                    <input type="text" id="tripTitleInput" class="trip-title-input" value="Travel Map" maxlength="120" data-i18n-placeholder="trip_name_placeholder" placeholder="Trip name" aria-label="Trip map title" oninput="onTripTitleInput()">
                     <button type="button" id="sidebarToggleBtn" class="sidebar-toggle-btn" onclick="toggleSidebar()" aria-label="Toggle settings panel">
                         <i class="fa-solid fa-chevron-down"></i>
                     </button>
                 </div>
+                <div class="input-group language-selector-group" style="margin-top: 10px; display: flex; flex-direction: row; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-globe" style="color: #5f6368; font-size: 1.2em;"></i>
+                    <select id="languageSelect" onchange="changeLanguage(this.value)" style="flex: 1; margin: 0; padding: 6px 10px; font-weight: 500;">
+                        <option value="zh-TW" selected>繁體中文 (Traditional Chinese)</option>
+                        <option value="en">English</option>
+                    </select>
+                </div>
             </div>
 
             <div class="sidebar-content" id="sidebarContent">
-                <div class="info-box">
+                <div class="info-box" data-i18n="info_box">
                 Select countries, add accommodations, and mark visited cities to visualize your travels!
             </div>
 
             <!-- Country Selection -->
             <div class="section">
-                <h3>🌍 Countries visited <span id="hdrCountriesCount" class="count-pill">0</span></h3>
+                <h3><span data-i18n="countries_visited">🌍 Countries visited</span> <span id="hdrCountriesCount" class="count-pill">0</span></h3>
                 <div class="input-group">
-                    <input type="text" id="countrySearch" placeholder="Search countries..." onkeyup="filterCountries()">
+                    <input type="text" id="countrySearch" data-i18n-placeholder="search_countries_placeholder" placeholder="Search countries..." onkeyup="filterCountries()">
                 </div>
                 <div id="selectedCountriesTags" class="selected-countries-tags"></div>
                 <div class="country-select" id="countrySelect"></div>
@@ -836,74 +843,74 @@
 
             <!-- Country Color Customization -->
             <div class="section">
-                <h3>🎨 Customize Colors</h3>
+                <h3 data-i18n="customize_colors">🎨 Customize Colors</h3>
                 <div class="input-group">
-                    <label for="colorCountrySelect">Select Country</label>
+                    <label for="colorCountrySelect" data-i18n="select_country_label">Select Country</label>
                     <select id="colorCountrySelect" onchange="updateColorPicker()">
-                        <option value="">Choose a country...</option>
+                        <option value="" data-i18n="choose_country_option">Choose a country...</option>
                     </select>
                 </div>
                 <div class="input-group" id="colorPickerGroup" style="display: none;">
-                    <label for="colorPicker">Color</label>
+                    <label for="colorPicker" data-i18n="color_label">Color</label>
                     <div style="display: flex; gap: 8px; align-items: center;">
                         <input type="color" id="colorPicker" onchange="updateCountryColor()">
-                        <button onclick="resetCountryColor()" style="background: #95a5a6; flex: 1;">Reset</button>
+                        <button onclick="resetCountryColor()" style="background: #95a5a6; flex: 1;" data-i18n="reset_button">Reset</button>
                     </div>
                 </div>
             </div>
 
             <!-- Accommodation Section -->
             <div class="section">
-                <h3>🏨 Accommodations <span id="hdrAccommodationsCount" class="count-pill">0</span></h3>
+                <h3><span data-i18n="accommodations_title">🏨 Accommodations</span> <span id="hdrAccommodationsCount" class="count-pill">0</span></h3>
                 <div class="input-group">
-                    <label for="accommodationCountry">Country</label>
+                    <label for="accommodationCountry" data-i18n="country_label">Country</label>
                     <select id="accommodationCountry">
-                        <option value="">Select a country...</option>
+                        <option value="" data-i18n="select_country_option">Select a country...</option>
                     </select>
                 </div>
                 <div class="input-group">
-                    <label for="accommodationCity">City/Location</label>
-                    <input type="text" id="accommodationCity" placeholder="e.g., London">
+                    <label for="accommodationCity" data-i18n="city_location_label">City/Location</label>
+                    <input type="text" id="accommodationCity" data-i18n-placeholder="city_example_placeholder" placeholder="e.g., London">
                 </div>
-                <button onclick="addAccommodation()">+ Add Accommodation</button>
+                <button onclick="addAccommodation()" data-i18n="add_accommodation_button">+ Add Accommodation</button>
             </div>
 
             <!-- Accommodation List -->
             <div class="section">
-                <h3>📍 Your Stays</h3>
+                <h3 data-i18n="your_stays_title">📍 Your Stays</h3>
                 <div class="accommodation-list" id="accommodationList"></div>
             </div>
 
             <!-- Visited Places Section -->
             <div class="section">
-                <h3>🏙️ Visited Places</h3>
+                <h3 data-i18n="visited_places_section">🏙️ Visited Places</h3>
                 <div class="input-group">
-                    <label for="visitedAccommodation">From Accommodation</label>
+                    <label for="visitedAccommodation" data-i18n="from_accommodation_label">From Accommodation</label>
                     <select id="visitedAccommodation">
-                        <option value="">Select an accommodation...</option>
+                        <option value="" data-i18n="select_accommodation_option">Select an accommodation...</option>
                     </select>
                 </div>
                 <div class="input-group">
-                    <label for="visitedCity">Place Name</label>
-                    <input type="text" id="visitedCity" placeholder="e.g., Oxford">
+                    <label for="visitedCity" data-i18n="place_name_label">Place Name</label>
+                    <input type="text" id="visitedCity" data-i18n-placeholder="place_example_placeholder" placeholder="e.g., Oxford">
                 </div>
-                <button onclick="addVisitedCity()">+ Add Visited Place</button>
+                <button onclick="addVisitedCity()" data-i18n="add_visited_place_button">+ Add Visited Place</button>
             </div>
 
             <!-- Visited Places List -->
             <div class="section">
-                <h3>📍 Your Visited Places</h3>
+                <h3 data-i18n="your_visited_places_title">📍 Your Visited Places</h3>
                 <div class="accommodation-list" id="visitedPlacesList"></div>
             </div>
 
             <!-- Clear All -->
-            <button class="btn-secondary" onclick="clearAll()" style="margin-top: auto; width: 100%;">Clear All</button>
+            <button class="btn-secondary" onclick="clearAll()" style="margin-top: auto; width: 100%;" data-i18n="clear_all_button">Clear All</button>
             <div style="display: flex; gap: 10px; margin-top: 10px;">
-                <button onclick="exportData()" style="flex: 1; background: #27ae60;">💾 Export</button>
-                <button onclick="importData()" style="flex: 1; background: #3498db;">📥 Import</button>
+                <button onclick="exportData()" style="flex: 1; background: #27ae60;" data-i18n="export_button">💾 Export</button>
+                <button onclick="importData()" style="flex: 1; background: #3498db;" data-i18n="import_button">📥 Import</button>
             </div>
             <a href="https://buymeacoffee.com/williamlaw" target="_blank" class="bmc-button">
-                ☕ Buy me a coffee
+                <span data-i18n="buy_me_coffee">☕ Buy me a coffee</span>
             </a>
             <input type="file" id="importFile" accept=".json" style="display: none;" onchange="handleFileImport()">
             </div>
@@ -913,7 +920,7 @@
         <div class="map-container" id="mapContainer">
             <div class="map-timeline-container">
                 <div class="timeline-title-wrapper">
-                    <span class="timeline-title"><i class="fa-solid fa-clock-rotate-left"></i> Trip Timeline</span>
+                    <span class="timeline-title"><i class="fa-solid fa-clock-rotate-left"></i> <span data-i18n="trip_timeline_title">Trip Timeline</span></span>
                     <span id="timelineValueLabel" class="timeline-value-label">100% (Show All)</span>
                 </div>
                 <div class="timeline-slider-wrapper">
@@ -921,7 +928,7 @@
                 </div>
             </div>
             <div style="flex: 1; position: relative; display: flex; flex-direction: column; min-height: 0;">
-                <button type="button" id="mapFullscreenToggle" class="map-fullscreen-toggle" onclick="toggleMapFullscreen()" title="Fullscreen map" aria-label="Toggle map fullscreen" aria-pressed="false">
+                <button type="button" id="mapFullscreenToggle" class="map-fullscreen-toggle" onclick="toggleMapFullscreen()" data-i18n-title="map_fullscreen_title" title="Fullscreen map" aria-label="Toggle map fullscreen" aria-pressed="false">
                     <i class="fa-solid fa-expand"></i>
                 </button>
                 <a href="https://buymeacoffee.com/williamlaw" target="_blank" class="bmc-floating-btn" title="Support me on Buy Me a Coffee" aria-label="Support me on Buy Me a Coffee">
@@ -930,7 +937,7 @@
                 <div id="map"></div>
             </div>
             <div class="map-attribution-footer">
-                <span>Vibe-coded by <a href="https://buymeacoffee.com/williamlaw" target="_blank">William Law</a></span>
+                <span><span data-i18n="vibe_coded_by">Vibe-coded by </span><a href="https://buymeacoffee.com/williamlaw" target="_blank">William Law</a></span>
                 <span>&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap contributors</a> &copy; <a href="https://carto.com/attributions" target="_blank">CARTO</a></span>
             </div>
         </div>
@@ -944,18 +951,18 @@
     <div id="coordinateModal" class="modal">
         <div class="modal-content">
             <span class="modal-close" onclick="closeCoordinateModal()">&times;</span>
-            <h3>Edit Coordinates</h3>
+            <h3 data-i18n="edit_coordinates_modal">Edit Coordinates</h3>
             <div class="input-group">
-                <label for="editLat">Latitude</label>
-                <input type="number" id="editLat" step="0.0001" placeholder="e.g., 51.5074">
+                <label for="editLat" data-i18n="latitude_label">Latitude</label>
+                <input type="number" id="editLat" step="0.0001" data-i18n-placeholder="lat_placeholder" placeholder="e.g., 51.5074">
             </div>
             <div class="input-group">
-                <label for="editLon">Longitude</label>
-                <input type="number" id="editLon" step="0.0001" placeholder="e.g., -0.1278">
+                <label for="editLon" data-i18n="longitude_label">Longitude</label>
+                <input type="number" id="editLon" step="0.0001" data-i18n-placeholder="lon_placeholder" placeholder="e.g., -0.1278">
             </div>
             <div class="modal-buttons">
-                <button class="btn-secondary" onclick="closeCoordinateModal()">Cancel</button>
-                <button onclick="saveCoordinates()" style="background: #27ae60;">Save</button>
+                <button class="btn-secondary" onclick="closeCoordinateModal()" data-i18n="cancel_button">Cancel</button>
+                <button onclick="saveCoordinates()" style="background: #27ae60;" data-i18n="save_button">Save</button>
             </div>
         </div>
     </div>

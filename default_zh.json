@@ -1,0 +1,783 @@
+{
+  "tripTitle": "William 歐洲之旅地圖",
+  "selectedCountries": [
+    "英國",
+    "荷蘭",
+    "比利時",
+    "德國",
+    "奧地利",
+    "匈牙利",
+    "斯洛維尼亞",
+    "捷克",
+    "波蘭",
+    "斯洛伐克",
+    "克羅埃西亞",
+    "馬爾他",
+    "葡萄牙",
+    "西班牙",
+    "法國",
+    "瑞士"
+  ],
+  "accommodations": [
+    {
+      "city": "白教堂",
+      "country": "英國",
+      "coords": [
+        51.5174861,
+        -0.0659685
+      ]
+    },
+    {
+      "city": "愛丁堡",
+      "country": "英國",
+      "coords": [
+        55.9533456,
+        -3.1883749
+      ]
+    },
+    {
+      "city": "阿森德爾夫特",
+      "country": "荷蘭",
+      "coords": [
+        52.4681109,
+        4.7449605
+      ]
+    },
+    {
+      "city": "慕尼黑",
+      "country": "德國",
+      "coords": [
+        48.1371079,
+        11.5753822
+      ]
+    },
+    {
+      "city": "布達佩斯",
+      "country": "匈牙利",
+      "coords": [
+        47.4978789,
+        19.0402383
+      ]
+    },
+    {
+      "city": "布拉格",
+      "country": "捷克",
+      "coords": [
+        50.0874654,
+        14.4212535
+      ]
+    },
+    {
+      "city": "克拉科夫",
+      "country": "波蘭",
+      "coords": [
+        50.0469432,
+        19.9971534
+      ]
+    },
+    {
+      "city": "維也納",
+      "country": "奧地利",
+      "coords": [
+        48.2083537,
+        16.3725042
+      ]
+    },
+    {
+      "city": "盧比安納",
+      "country": "斯洛維尼亞",
+      "coords": [
+        46.0500268,
+        14.5069289
+      ]
+    },
+    {
+      "city": "斯普利特",
+      "country": "克羅埃西亞",
+      "coords": [
+        43.5116383,
+        16.4399659
+      ]
+    },
+    {
+      "city": "聖保羅灣城",
+      "country": "馬爾他",
+      "coords": [
+        35.9480742,
+        14.3973929
+      ]
+    },
+    {
+      "city": "波多",
+      "country": "葡萄牙",
+      "coords": [
+        41.1502195,
+        -8.6103497
+      ]
+    },
+    {
+      "city": "孔迪鎮",
+      "country": "葡萄牙",
+      "coords": [
+        41.3540398,
+        -8.7435403
+      ]
+    },
+    {
+      "city": "埃斯波森迪",
+      "country": "葡萄牙",
+      "coords": [
+        41.5315251,
+        -8.7792538
+      ]
+    },
+    {
+      "city": "維亞納堡",
+      "country": "葡萄牙",
+      "coords": [
+        41.6935131,
+        -8.828277
+      ]
+    },
+    {
+      "city": "卡米尼亞",
+      "country": "葡萄牙",
+      "coords": [
+        41.8492014,
+        -8.7726602
+      ]
+    },
+    {
+      "city": "O Serrallo",
+      "country": "西班牙",
+      "coords": [
+        42.0365273,
+        -8.8796298
+      ]
+    },
+    {
+      "city": "拉馬約薩",
+      "country": "西班牙",
+      "coords": [
+        42.1229069,
+        -8.8062555
+      ]
+    },
+    {
+      "city": "維戈",
+      "country": "西班牙",
+      "coords": [
+        42.1986395,
+        -8.727956
+      ]
+    },
+    {
+      "city": "雷東德拉",
+      "country": "西班牙",
+      "coords": [
+        42.279914,
+        -8.6163366
+      ]
+    },
+    {
+      "city": "蓬特韋德拉",
+      "country": "西班牙",
+      "coords": [
+        42.428065,
+        -8.6041447
+      ]
+    },
+    {
+      "city": "雷伊斯卡爾達斯",
+      "country": "西班牙",
+      "coords": [
+        42.6182783,
+        -8.661358
+      ]
+    },
+    {
+      "city": "帕德龍",
+      "country": "西班牙",
+      "coords": [
+        42.7597656,
+        -8.6236363
+      ]
+    },
+    {
+      "city": "聖地亞哥-德孔波斯特拉",
+      "country": "西班牙",
+      "coords": [
+        42.9064576,
+        -8.5192983
+      ]
+    },
+    {
+      "city": "馬德里",
+      "country": "西班牙",
+      "coords": [
+        40.416782,
+        -3.703507
+      ]
+    },
+    {
+      "city": "巴黎",
+      "country": "法國",
+      "coords": [
+        48.8534951,
+        2.3483915
+      ]
+    },
+    {
+      "city": "琉森",
+      "country": "瑞士",
+      "coords": [
+        47.052144,
+        8.3058123
+      ]
+    },
+    {
+      "city": "格林德瓦",
+      "country": "瑞士",
+      "coords": [
+        46.6242733,
+        8.0367462
+      ]
+    }
+  ],
+  "visitedCities": [
+    {
+      "name": "牛津",
+      "accommodationName": "白教堂, 英國",
+      "accommodationIndex": 0,
+      "accommodationCoords": [
+        51.5174861,
+        -0.0659685
+      ],
+      "coords": [
+        51.7520131,
+        -1.2578499
+      ]
+    },
+    {
+      "name": "劍橋",
+      "accommodationName": "白教堂, 英國",
+      "accommodationIndex": 0,
+      "accommodationCoords": [
+        51.5174861,
+        -0.0659685
+      ],
+      "coords": [
+        52.1975846,
+        0.1391537
+      ]
+    },
+    {
+      "name": "斯凱島",
+      "accommodationName": "愛丁堡, 英國",
+      "accommodationIndex": 1,
+      "accommodationCoords": [
+        55.9533456,
+        -3.1883749
+      ],
+      "coords": [
+        57.3630183,
+        -6.3023463
+      ]
+    },
+    {
+      "name": "印威內斯",
+      "accommodationName": "愛丁堡, 英國",
+      "accommodationIndex": 1,
+      "accommodationCoords": [
+        55.9533456,
+        -3.1883749
+      ],
+      "coords": [
+        57.4790124,
+        -4.225739
+      ]
+    },
+    {
+      "name": "格蘭芬南",
+      "accommodationName": "愛丁堡, 英國",
+      "accommodationIndex": 1,
+      "accommodationCoords": [
+        55.9533456,
+        -3.1883749
+      ],
+      "coords": [
+        56.872438,
+        -5.4493089
+      ]
+    },
+    {
+      "name": "格倫科",
+      "accommodationName": "愛丁堡, 英國",
+      "accommodationIndex": 1,
+      "accommodationCoords": [
+        55.9533456,
+        -3.1883749
+      ],
+      "coords": [
+        56.6827647,
+        -5.1014552
+      ]
+    },
+    {
+      "name": "阿姆斯特丹",
+      "accommodationName": "阿森德爾夫特, 荷蘭",
+      "accommodationIndex": 2,
+      "accommodationCoords": [
+        52.4681109,
+        4.7449605
+      ],
+      "coords": [
+        52.3730796,
+        4.8924534
+      ]
+    },
+    {
+      "name": "贊丹",
+      "accommodationName": "阿森德爾夫特, 荷蘭",
+      "accommodationIndex": 2,
+      "accommodationCoords": [
+        52.4681109,
+        4.7449605
+      ],
+      "coords": [
+        52.4424926,
+        4.8298607
+      ]
+    },
+    {
+      "name": "海牙",
+      "accommodationName": "阿森德爾夫特, 荷蘭",
+      "accommodationIndex": 2,
+      "accommodationCoords": [
+        52.4681109,
+        4.7449605
+      ],
+      "coords": [
+        52.0799838,
+        4.3113461
+      ]
+    },
+    {
+      "name": "鹿特丹",
+      "accommodationName": "阿森德爾夫特, 荷蘭",
+      "accommodationIndex": 2,
+      "accommodationCoords": [
+        52.4681109,
+        4.7449605
+      ],
+      "coords": [
+        51.9244424,
+        4.47775
+      ]
+    },
+    {
+      "name": "小孩堤防",
+      "accommodationName": "阿森德爾夫特, 荷蘭",
+      "accommodationIndex": 2,
+      "accommodationCoords": [
+        52.4681109,
+        4.7449605
+      ],
+      "coords": [
+        51.8886955,
+        4.6356972
+      ]
+    },
+    {
+      "name": "庫肯霍夫",
+      "accommodationName": "阿森德爾夫特, 荷蘭",
+      "accommodationIndex": 2,
+      "accommodationCoords": [
+        52.4681109,
+        4.7449605
+      ],
+      "coords": [
+        52.2698728,
+        4.5472566
+      ]
+    },
+    {
+      "name": "安特衛普",
+      "accommodationName": "阿森德爾夫特, 荷蘭",
+      "accommodationIndex": 2,
+      "accommodationCoords": [
+        52.4681109,
+        4.7449605
+      ],
+      "coords": [
+        51.2194,
+        4.4024
+      ]
+    },
+    {
+      "name": "柏林",
+      "accommodationName": "慕尼黑, 德國",
+      "accommodationIndex": 3,
+      "accommodationCoords": [
+        48.1371079,
+        11.5753822
+      ],
+      "coords": [
+        52.5173885,
+        13.3951309
+      ]
+    },
+    {
+      "name": "茵斯布魯克",
+      "accommodationName": "慕尼黑, 德國",
+      "accommodationIndex": 3,
+      "accommodationCoords": [
+        48.1371079,
+        11.5753822
+      ],
+      "coords": [
+        47.2692,
+        11.4041
+      ]
+    },
+    {
+      "name": "楚格峰",
+      "accommodationName": "慕尼黑, 德國",
+      "accommodationIndex": 3,
+      "accommodationCoords": [
+        48.1371079,
+        11.5753822
+      ],
+      "coords": [
+        47.421215,
+        10.986297
+      ]
+    },
+    {
+      "name": "哈爾施塔特",
+      "accommodationName": "慕尼黑, 德國",
+      "accommodationIndex": 3,
+      "accommodationCoords": [
+        48.1371079,
+        11.5753822
+      ],
+      "coords": [
+        47.5622,
+        13.6493
+      ]
+    },
+    {
+      "name": "富森",
+      "accommodationName": "慕尼黑, 德國",
+      "accommodationIndex": 3,
+      "accommodationCoords": [
+        48.1371079,
+        11.5753822
+      ],
+      "coords": [
+        47.5675998,
+        10.6993217
+      ]
+    },
+    {
+      "name": "羊角村",
+      "accommodationName": "阿森德爾夫特, 荷蘭",
+      "accommodationIndex": 2,
+      "accommodationCoords": [
+        52.4681109,
+        4.7449605
+      ],
+      "coords": [
+        52.741105,
+        6.077431
+      ]
+    },
+    {
+      "name": "維也納",
+      "accommodationName": "布達佩斯, 匈牙利",
+      "accommodationIndex": 4,
+      "accommodationCoords": [
+        47.4978789,
+        19.0402383
+      ],
+      "coords": [
+        48.2082,
+        16.3738
+      ]
+    },
+    {
+      "name": "布拉提斯拉瓦",
+      "accommodationName": "布達佩斯, 匈牙利",
+      "accommodationIndex": 4,
+      "accommodationCoords": [
+        47.4978789,
+        19.0402383
+      ],
+      "coords": [
+        48.1421376,
+        17.1020877
+      ]
+    },
+    {
+      "name": "薩爾斯堡",
+      "accommodationName": "慕尼黑, 德國",
+      "accommodationIndex": 3,
+      "accommodationCoords": [
+        48.1371079,
+        11.5753822
+      ],
+      "coords": [
+        47.8095,
+        13.055
+      ]
+    },
+    {
+      "name": "庫倫洛夫",
+      "accommodationName": "布拉格, 捷克",
+      "accommodationIndex": 5,
+      "accommodationCoords": [
+        50.0874654,
+        14.4212535
+      ],
+      "coords": [
+        48.8106526,
+        14.3150586
+      ]
+    },
+    {
+      "name": "扎科帕內",
+      "accommodationName": "克拉科夫, 波蘭",
+      "accommodationIndex": 6,
+      "accommodationCoords": [
+        50.0469432,
+        19.9971534
+      ],
+      "coords": [
+        49.2969114,
+        19.9504753
+      ]
+    },
+    {
+      "name": "奧斯威辛",
+      "accommodationName": "克拉科夫, 波蘭",
+      "accommodationIndex": 6,
+      "accommodationCoords": [
+        50.0469432,
+        19.9971534
+      ],
+      "coords": [
+        50.0336707,
+        19.2600798
+      ]
+    },
+    {
+      "name": "國王湖",
+      "accommodationName": "維也納, 奧地利",
+      "accommodationIndex": 7,
+      "accommodationCoords": [
+        48.2083537,
+        16.3725042
+      ],
+      "coords": [
+        47.5562,
+        12.9734
+      ]
+    },
+    {
+      "name": "布萊德",
+      "accommodationName": "盧比安納, 斯洛維尼亞",
+      "accommodationIndex": 8,
+      "accommodationCoords": [
+        46.0500268,
+        14.5069289
+      ],
+      "coords": [
+        46.3684202,
+        14.1100595
+      ]
+    },
+    {
+      "name": "文特加峽谷",
+      "accommodationName": "盧比安納, 斯洛維尼亞",
+      "accommodationIndex": 8,
+      "accommodationCoords": [
+        46.0500268,
+        14.5069289
+      ],
+      "coords": [
+        46.3986171,
+        14.0927482
+      ]
+    },
+    {
+      "name": "特羅吉爾",
+      "accommodationName": "斯普利特, 克羅埃西亞",
+      "accommodationIndex": 9,
+      "accommodationCoords": [
+        43.5116383,
+        16.4399659
+      ],
+      "coords": [
+        43.5164142,
+        16.2497163
+      ]
+    },
+    {
+      "name": "杜布羅夫尼克",
+      "accommodationName": "斯普利特, 克羅埃西亞",
+      "accommodationIndex": 9,
+      "accommodationCoords": [
+        43.5116383,
+        16.4399659
+      ],
+      "coords": [
+        42.6491029,
+        18.0939501
+      ]
+    },
+    {
+      "name": "扎達爾",
+      "accommodationName": "斯普利特, 克羅埃西亞",
+      "accommodationIndex": 9,
+      "accommodationCoords": [
+        43.5116383,
+        16.4399659
+      ],
+      "coords": [
+        44.1168594,
+        15.2353257
+      ]
+    },
+    {
+      "name": "梅利哈",
+      "accommodationName": "聖保羅灣城, 馬爾他",
+      "accommodationIndex": 10,
+      "accommodationCoords": [
+        35.9480742,
+        14.3973929
+      ],
+      "coords": [
+        35.9599618,
+        14.368367
+      ]
+    },
+    {
+      "name": "大力水手村",
+      "accommodationName": "聖保羅灣城, 馬爾他",
+      "accommodationIndex": 10,
+      "accommodationCoords": [
+        35.9480742,
+        14.3973929
+      ],
+      "coords": [
+        35.9608373,
+        14.340684
+      ]
+    },
+    {
+      "name": "戈佐島",
+      "accommodationName": "聖保羅灣城, 馬爾他",
+      "accommodationIndex": 10,
+      "accommodationCoords": [
+        35.9480742,
+        14.3973929
+      ],
+      "coords": [
+        36.0467778,
+        14.2582565
+      ]
+    },
+    {
+      "name": "斯利馬",
+      "accommodationName": "聖保羅灣城, 馬爾他",
+      "accommodationIndex": 10,
+      "accommodationCoords": [
+        35.9480742,
+        14.3973929
+      ],
+      "coords": [
+        35.9127609,
+        14.5020708
+      ]
+    },
+    {
+      "name": "瓦萊塔",
+      "accommodationName": "聖保羅灣城, 馬爾他",
+      "accommodationIndex": 10,
+      "accommodationCoords": [
+        35.9480742,
+        14.3973929
+      ],
+      "coords": [
+        35.8989979,
+        14.5136607
+      ]
+    },
+    {
+      "name": "姆迪納",
+      "accommodationName": "聖保羅灣城, 馬爾他",
+      "accommodationIndex": 10,
+      "accommodationCoords": [
+        35.9480742,
+        14.3973929
+      ],
+      "coords": [
+        35.8858923,
+        14.4025288
+      ]
+    },
+    {
+      "name": "拉巴特",
+      "accommodationName": "聖保羅灣城, 馬爾他",
+      "accommodationIndex": 10,
+      "accommodationCoords": [
+        35.9480742,
+        14.3973929
+      ],
+      "coords": [
+        35.8818906,
+        14.3988213
+      ]
+    },
+    {
+      "name": "比爾古",
+      "accommodationName": "聖保羅灣城, 馬爾他",
+      "accommodationIndex": 10,
+      "accommodationCoords": [
+        35.9480742,
+        14.3973929
+      ],
+      "coords": [
+        35.8881119,
+        14.5238445
+      ]
+    },
+    {
+      "name": "森格萊阿",
+      "accommodationName": "聖保羅灣城, 馬爾他",
+      "accommodationIndex": 10,
+      "accommodationCoords": [
+        35.9480742,
+        14.3973929
+      ],
+      "coords": [
+        35.887175,
+        14.517307
+      ]
+    },
+    {
+      "name": "馬爾薩什洛克",
+      "accommodationName": "聖保羅灣城, 馬爾他",
+      "accommodationIndex": 10,
+      "accommodationCoords": [
+        35.9480742,
+        14.3973929
+      ],
+      "coords": [
+        35.8417662,
+        14.5448353
+      ]
+    }
+  ],
+  "exportDate": "2026-05-21T16:26:16.730Z"
+}

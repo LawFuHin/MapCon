@@ -57,8 +57,94 @@ let timelineSliderValue = 100;
 let geojsonLayer = null;
 let customCountryColors = {};
 
-const DEFAULT_TRIP_TITLE = 'Travel Map';
-let tripTitle = DEFAULT_TRIP_TITLE;
+
+let currentLang = 'zh-TW';
+let localesData = {};
+
+async function loadLocales() {
+    try {
+        const response = await fetch('locales.json', { cache: 'no-store' });
+        if (response.ok) {
+            localesData = await response.json();
+        }
+    } catch (e) {
+        console.error('Failed to load locales:', e);
+    }
+}
+
+function t(key, params = {}) {
+    if (!localesData[currentLang] || !localesData[currentLang][key]) {
+        return key;
+    }
+    let str = localesData[currentLang][key];
+    for (const [k, v] of Object.entries(params)) {
+        str = str.split(`{${k}}`).join(v);
+    }
+    return str;
+}
+
+function tCountry(countryName) {
+    if (!localesData[currentLang] || !localesData[currentLang].countries || !localesData[currentLang].countries[countryName]) {
+        return countryName;
+    }
+    return localesData[currentLang].countries[countryName];
+}
+
+async function changeLanguage(lang, loadDefault = true) {
+    currentLang = lang;
+    
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        el.textContent = t(el.getAttribute('data-i18n'));
+    });
+    
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        el.placeholder = t(el.getAttribute('data-i18n-placeholder'));
+    });
+    
+    document.querySelectorAll('[data-i18n-title]').forEach(el => {
+        el.title = t(el.getAttribute('data-i18n-title'));
+    });
+
+    renderAccommodationList();
+    renderVisitedPlacesList();
+    updateSelectedCountriesTags();
+    updateAccommodationCountrySelect();
+    updateColorCountrySelect();
+    updateVisitedAccommodationSelect();
+    
+    if (geojsonLayer) {
+        geojsonLayer.eachLayer(layer => {
+            const countryName = appCountryKeyFromGeoJSON(layer.feature.properties.name);
+            const localizedName = tCountry(countryName);
+            if (selectedCountries.has(localizedName)) {
+                layer.bindPopup(`<strong>${localizedName}</strong>`);
+            }
+        });
+    }
+    updateMap();
+    
+    const leg1 = document.getElementById('leg1');
+    const leg2 = document.getElementById('leg2');
+    const leg3 = document.getElementById('leg3');
+    if (leg1) leg1.textContent = t('legend_acc_to_acc');
+    if (leg2) leg2.textContent = t('legend_acc_to_visited');
+    if (leg3) leg3.textContent = t('legend_not_visited');
+
+    onTimelineSliderChange(timelineSliderValue);
+    
+    if (tripTitle === localesData['en']['default_trip_title'] || tripTitle === localesData['zh-TW']['default_trip_title'] || tripTitle === 'Travel Map') {
+        tripTitle = t('default_trip_title');
+        syncTripTitleUI();
+    }
+    
+    if (loadDefault) {
+        await tryLoadDefaultJson(lang);
+    }
+}
+
+function getDefaultTripTitle() { return t('default_trip_title'); }
+
+let tripTitle = 'Travel Map';
 
 // Initialize map
 function initMap() {
@@ -89,11 +175,11 @@ function initMap() {
             geojsonLayer = L.geoJSON(data, {
                 pane: 'countriesPane',
                 style: function(feature) {
-                    const countryName = appCountryKeyFromGeoJSON(feature.properties.name);
-                    const isSelected = selectedCountries.has(countryName);
+                    const geoName = appCountryKeyFromGeoJSON(feature.properties.name);
+                    const localizedName = tCountry(geoName);
+                    const isSelected = selectedCountries.has(localizedName);
                     
-                    // Get color from countryData or use a default
-                    const color = isSelected ? (countryData[countryName]?.color || '#2ecc71') : '#d3d3d3';
+                    const color = isSelected ? getCountryColor(feature) : '#d3d3d3';
                     
                     return {
                         fillColor: color,
@@ -104,10 +190,10 @@ function initMap() {
                     };
                 },
                 onEachFeature: function(feature, layer) {
-                    const countryName = appCountryKeyFromGeoJSON(feature.properties.name);
-                    const isSelected = selectedCountries.has(countryName);
-                    if (isSelected) {
-                        layer.bindPopup(`<strong>${countryName}</strong>`);
+                    const geoName = appCountryKeyFromGeoJSON(feature.properties.name);
+                    const localizedName = tCountry(geoName);
+                    if (selectedCountries.has(localizedName)) {
+                        layer.bindPopup(`<strong>${localizedName}</strong>`);
                     }
                 }
             }).addTo(map);
@@ -128,15 +214,15 @@ function initMap() {
             <div class="legend-content">
                 <div class="legend-item">
                     <div class="legend-color" style="background: #e74c3c;"></div>
-                    <span>Accommodation → Accommodation</span>
+                    <span id="leg1">${t('legend_acc_to_acc')}</span>
                 </div>
                 <div class="legend-item">
                     <div class="legend-color" style="background: #3498db;"></div>
-                    <span>Accommodation → Visited Places</span>
+                    <span id="leg2">${t('legend_acc_to_visited')}</span>
                 </div>
                 <div class="legend-item">
                     <div class="legend-color" style="background: #d3d3d3;"></div>
-                    <span>Not Visited</span>
+                    <span id="leg3">${t('legend_not_visited')}</span>
                 </div>
             </div>
         `;
@@ -314,7 +400,7 @@ function initCountrySelect() {
         label.className = 'checkbox-item';
         label.innerHTML = `
             <input type="checkbox" value="${country}" onchange="toggleCountry('${country}')">
-            <label style="margin: 0;">${country}</label>
+            <label style="margin: 0;">${tCountry(country)}</label>
         `;
         container.appendChild(label);
     });
@@ -330,7 +416,7 @@ function updateAccommodationCountrySelect() {
     Array.from(selectedCountries).sort().forEach(country => {
         const option = document.createElement('option');
         option.value = country;
-        option.textContent = country;
+        option.textContent = tCountry(country);
         select.appendChild(option);
     });
 }
@@ -368,7 +454,7 @@ function syncTripTitleUI() {
 function onTripTitleInput() {
     const input = document.getElementById('tripTitleInput');
     if (!input) return;
-    tripTitle = input.value.trim() || DEFAULT_TRIP_TITLE;
+    tripTitle = input.value.trim() || getDefaultTripTitle();
     document.title = `${tripTitle} — Travel map visualizer`;
 }
 
@@ -389,7 +475,7 @@ function updateSelectedCountriesTags() {
         const color = getCountryColor(country);
         tag.style.backgroundColor = color;
         tag.innerHTML = `
-            <span>${country}</span>
+            <span>${tCountry(country)}</span>
             <button onclick="removeCountryTag('${country}')" title="Remove">✕</button>
         `;
         container.appendChild(tag);
@@ -433,11 +519,35 @@ function filterCountries() {
 }
 
 // Get country color with custom colors override
-function getCountryColor(country) {
-    if (customCountryColors[country]) {
-        return customCountryColors[country];
+function getCountryColor(input) {
+    let localizedName;
+    let englishName;
+    if (typeof input === 'string') {
+        localizedName = input;
+        englishName = localizedName;
+        // Reverse lookup to find the english base key for countryData
+        if (localesData[currentLang] && localesData[currentLang].countries) {
+            for (const [enKey, locVal] of Object.entries(localesData[currentLang].countries)) {
+                if (locVal === localizedName) {
+                    englishName = enKey;
+                    break;
+                }
+            }
+        }
+    } else {
+        englishName = appCountryKeyFromGeoJSON(input.properties.name);
+        localizedName = tCountry(englishName);
     }
-    return countryData[country]?.color || '#d3d3d3';
+    
+    // Check if the country is selected
+    if (selectedCountries.has(localizedName)) {
+        // If there's a custom color, use it
+        if (customCountryColors[localizedName]) {
+            return customCountryColors[localizedName];
+        }
+        return countryData[englishName]?.color || '#1a73e8';
+    }
+    return '#f5f5f5'; // Default light grey for unselected
 }
 
 function refreshGeojsonCountryStyles() {
@@ -451,7 +561,6 @@ function refreshGeojsonCountryStyles() {
         K = Math.max(1, Math.round((timelineSliderValue / 100) * N));
     }
 
-    // Determine active countries under current slider limit K
     const activeCountries = new Set();
     if (timelineSliderValue === 100 || K >= N) {
         selectedCountries.forEach(c => activeCountries.add(c));
@@ -472,10 +581,13 @@ function refreshGeojsonCountryStyles() {
     }
 
     geojsonLayer.setStyle(function(feature) {
-        const countryName = appCountryKeyFromGeoJSON(feature.properties.name);
-        const isActive = activeCountries.has(countryName);
-        const isSelected = selectedCountries.has(countryName);
-        const color = isActive ? getCountryColor(countryName) : '#d3d3d3';
+        const geoName = appCountryKeyFromGeoJSON(feature.properties.name);
+        const localizedName = tCountry(geoName);
+        
+        const isActive = activeCountries.has(localizedName);
+        const isSelected = selectedCountries.has(localizedName);
+        
+        const color = isActive ? getCountryColor(feature) : '#d3d3d3';
         return {
             fillColor: color,
             weight: isSelected ? 2 : 1,
@@ -547,7 +659,7 @@ function updateMap() {
                     weight: 2,
                     opacity: 1,
                     fillOpacity: 0.8
-                }).bindPopup(`<strong>${city.name}</strong><br>Visited from: ${city.accommodationName}`).addTo(map);
+                }).bindPopup(`<strong>${city.name}</strong><br>${t('popup_visited_from')}${city.accommodationName}`).addTo(map);
                 layers.markers.push(marker);
                 
                 // Add label for visited city
@@ -585,7 +697,7 @@ function updateMap() {
                 weight: 3,
                 opacity: 1,
                 fillOpacity: 0.9
-            }).bindPopup(`<strong>${acc.city}</strong><br>${acc.country}`).addTo(map);
+            }).bindPopup(`<strong>${acc.city}</strong><br>${tCountry(acc.country)}`).addTo(map);
             layers.markers.push(marker);
             
             // Add label for accommodation
@@ -622,7 +734,7 @@ function onTimelineSliderChange(val) {
     if (labelEl) {
         const N = accommodations.length;
         if (N === 0) {
-            labelEl.textContent = 'No accommodations';
+            labelEl.textContent = t('timeline_no_acc');
         } else {
             let K;
             if (timelineSliderValue === 0) {
@@ -632,13 +744,13 @@ function onTimelineSliderChange(val) {
             }
             
             if (timelineSliderValue === 100) {
-                labelEl.textContent = `100% (Show All: ${N}/${N})`;
+                labelEl.textContent = t('timeline_show_all', {N: N});
             } else if (timelineSliderValue === 0) {
-                labelEl.textContent = `0% (Show None)`;
+                labelEl.textContent = t('timeline_show_none');
             } else {
                 const lastAcc = accommodations[K - 1];
                 const lastCityName = lastAcc ? lastAcc.city : '';
-                labelEl.textContent = `${timelineSliderValue}% (Stop at: ${lastCityName} - ${K}/${N})`;
+                labelEl.textContent = t('timeline_stop_at', {V: timelineSliderValue, city: lastCityName, K: K, N: N});
             }
         }
     }
@@ -657,9 +769,9 @@ function resetTimelineSlider() {
     if (labelEl) {
         const N = accommodations.length;
         if (N === 0) {
-            labelEl.textContent = 'No accommodations';
+            labelEl.textContent = t('timeline_no_acc');
         } else {
-            labelEl.textContent = `100% (Show All: ${N}/${N})`;
+            labelEl.textContent = t('timeline_show_all', {N: N});
         }
     }
 }
@@ -702,7 +814,7 @@ async function addAccommodation() {
     const city = document.getElementById('accommodationCity').value;
 
     if (!country || !city) {
-        alert('Please select a country and enter a city name');
+        alert(t('alert_select_acc_city'));
         return;
     }
 
@@ -710,7 +822,7 @@ async function addAccommodation() {
     const coords = await geocodeCity(city, country);
     
     if (!coords) {
-        alert('Could not find coordinates for this city. Try another name.');
+        alert(t('alert_coord_not_found'));
         return;
     }
 
@@ -744,8 +856,8 @@ function renderAccommodationList() {
         div.className = 'accommodation-item';
         div.innerHTML = `
             <h4>${index + 1}. ${acc.city}</h4>
-            <p>📍 ${acc.country}</p>
-            <p style="font-size: 0.8em; color: #999;">Lat: ${acc.coords[0].toFixed(3)}, Lon: ${acc.coords[1].toFixed(3)}</p>
+            <p>📍 ${tCountry(acc.country)}</p>
+            <p style="font-size: 0.8em; color: #999;">${t('label_lat')}${acc.coords[0].toFixed(3)}, ${t('label_lon')}${acc.coords[1].toFixed(3)}</p>
             <div style="display: flex; gap: 8px; margin-bottom: 8px;">
                 <button type="button" onclick="moveAccommodationUp(${index})" title="Move up" ${index === 0 ? 'disabled' : ''} style="flex: 1; background: #7f8c8d; font-size: 0.85em; ${index === 0 ? 'opacity: 0.45; cursor: not-allowed;' : ''}"><i class="fa-solid fa-chevron-up"></i> Up</button>
                 <button type="button" onclick="moveAccommodationDown(${index})" title="Move down" ${index === lastIdx ? 'disabled' : ''} style="flex: 1; background: #7f8c8d; font-size: 0.85em; ${index === lastIdx ? 'opacity: 0.45; cursor: not-allowed;' : ''}"><i class="fa-solid fa-chevron-down"></i> Down</button>
@@ -765,7 +877,7 @@ function syncVisitedCityAccommodationRefs() {
     visitedCities.forEach(city => {
         const acc = accommodations[city.accommodationIndex];
         if (acc) {
-            city.accommodationName = `${acc.city}, ${acc.country}`;
+            city.accommodationName = `${acc.city}, ${tCountry(acc.country)}`;
             city.accommodationCoords = acc.coords;
         }
     });
@@ -861,7 +973,7 @@ function updateVisitedAccommodationSelect() {
     accommodations.forEach((acc, index) => {
         const option = document.createElement('option');
         option.value = index;
-        option.textContent = `${acc.city}, ${acc.country}`;
+        option.textContent = `${acc.city}, ${tCountry(acc.country)}`;
         select.appendChild(option);
     });
 }
@@ -872,7 +984,7 @@ async function addVisitedCity() {
     const city = document.getElementById('visitedCity').value;
 
     if (accommodationIndex === '' || !city) {
-        alert('Please select an accommodation and enter a city name');
+        alert(t('alert_select_acc_place'));
         return;
     }
 
@@ -882,7 +994,7 @@ async function addVisitedCity() {
     const coords = await geocodeCity(city, accommodation.country);
     
     if (!coords) {
-        alert('Could not find coordinates for this city. Try another name.');
+        alert(t('alert_coord_not_found'));
         return;
     }
 
@@ -918,8 +1030,8 @@ function renderVisitedPlacesList() {
         div.className = 'accommodation-item';
         div.innerHTML = `
             <h4>${city.name}</h4>
-            <p>📍 From: ${city.accommodationName}</p>
-            <p style="font-size: 0.8em; color: #999;">Lat: ${city.coords[0].toFixed(3)}, Lon: ${city.coords[1].toFixed(3)}</p>
+            <p>📍 ${t('label_from')}${city.accommodationName}</p>
+            <p style="font-size: 0.8em; color: #999;">${t('label_lat')}${city.coords[0].toFixed(3)}, ${t('label_lon')}${city.coords[1].toFixed(3)}</p>
             <div style="display: flex; gap: 8px;">
                 <button onclick="openCoordinateModal('place', ${index})" style="flex: 1; background: #3498db; font-size: 0.85em;">📍 Edit Coords</button>
                 <button onclick="updateVisitedPlace(${index})" style="flex: 1; background: #f39c12;">✏️ Update</button>
@@ -957,13 +1069,13 @@ function updateVisitedPlace(index) {
 
 // Clear all data
 function clearAll() {
-    if (confirm('Are you sure you want to clear all data?')) {
+    if (confirm(t('alert_clear_all_confirm'))) {
         selectedCountries.clear();
         accommodations = [];
         visitedCities = [];
         cityGeocodingCache = {};
         customCountryColors = {};
-        tripTitle = DEFAULT_TRIP_TITLE;
+        tripTitle = getDefaultTripTitle();
         syncTripTitleUI();
 
         document.getElementById('accommodationCity').value = '';
@@ -1012,7 +1124,7 @@ function exportData() {
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
 
-    alert('Travel data exported successfully!');
+    alert(t('alert_export_success'));
 }
 
 // Import data from JSON file
@@ -1033,7 +1145,7 @@ function applyTravelData(data) {
 
     tripTitle = (typeof data.tripTitle === 'string' && data.tripTitle.trim())
         ? data.tripTitle.trim()
-        : DEFAULT_TRIP_TITLE;
+        : getDefaultTripTitle();
     syncTripTitleUI();
 
     document.querySelectorAll('.country-select input[type="checkbox"]').forEach(cb => {
@@ -1053,17 +1165,18 @@ function applyTravelData(data) {
     updateSidebarCounts();
 }
 
-async function tryLoadDefaultJson() {
+async function tryLoadDefaultJson(lang = currentLang) {
+    const file = lang === 'en' ? 'default.json' : 'default_zh.json';
     try {
-        const response = await fetch('default.json', { cache: 'no-store' });
+        const response = await fetch(file, { cache: 'no-store' });
         if (!response.ok) return false;
 
         const data = await response.json();
         applyTravelData(data);
-        console.info('Loaded travel data from default.json');
+        console.info(`Loaded travel data from ${file}`);
         return true;
     } catch (e) {
-        console.debug('default.json not loaded:', e);
+        console.debug(`${file} not loaded:`, e);
         return false;
     }
 }
@@ -1079,9 +1192,9 @@ async function handleFileImport() {
         const data = JSON.parse(fileContent);
         applyTravelData(data);
 
-        alert(`Travel data imported successfully!\n\nLoaded:\n- ${selectedCountries.size} countries\n- ${accommodations.length} accommodations\n- ${visitedCities.length} visited cities`);
+        alert(t('alert_import_success', {c: selectedCountries.size, a: accommodations.length, v: visitedCities.length}));
     } catch (error) {
-        alert('Error importing file: ' + error.message);
+        alert(t('alert_import_error') + error.message);
     }
 
     // Reset file input
@@ -1121,7 +1234,7 @@ function saveCoordinates() {
     
     // Validate coordinates
     if (isNaN(lat) || isNaN(lon) || lat < -90 || lat > 90 || lon < -180 || lon > 180) {
-        alert('Invalid coordinates. Latitude must be between -90 and 90, Longitude between -180 and 180.');
+        alert(t('alert_invalid_coords'));
         return;
     }
     
@@ -1142,7 +1255,7 @@ function saveCoordinates() {
     renderVisitedPlacesList();
     updateMap();
     closeCoordinateModal();
-    alert('Coordinates updated successfully!');
+    alert(t('alert_coords_success'));
 }
 
 // Close modal when clicking outside of it
@@ -1161,7 +1274,7 @@ function updateColorCountrySelect() {
     Array.from(selectedCountries).sort().forEach(country => {
         const option = document.createElement('option');
         option.value = country;
-        option.textContent = country;
+        option.textContent = tCountry(country);
         select.appendChild(option);
     });
 }
@@ -1216,6 +1329,8 @@ function resetCountryColor() {
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', async function() {
+    await loadLocales();
+    await changeLanguage('zh-TW', false);
     initMap();
     initMapFullscreenUi();
     initCountrySelect();
