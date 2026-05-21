@@ -96,7 +96,8 @@
       "Slovenia": "Slovenia",
       "Spain": "Spain",
       "Sweden": "Sweden",
-      "United Kingdom": "United Kingdom"
+      "United Kingdom": "United Kingdom",
+      "Switzerland": "Switzerland"
     },
     "select_global_country": "Select a global country...",
     "add_btn": "Add"
@@ -198,7 +199,8 @@
       "Slovenia": "斯洛維尼亞",
       "Spain": "西班牙",
       "Sweden": "瑞典",
-      "United Kingdom": "英國"
+      "United Kingdom": "英國",
+      "Switzerland": "瑞士"
     },
     "select_global_country": "選擇全球國家...",
     "add_btn": "新增"
