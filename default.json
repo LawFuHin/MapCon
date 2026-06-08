@@ -777,7 +777,228 @@
         35.8417662,
         14.5448353
       ]
+    },
+    {
+      "name": "London",
+      "accommodationName": "Whitechapel, United Kingdom",
+      "accommodationIndex": 0,
+      "accommodationCoords": [
+        51.5174861,
+        -0.0659685
+      ],
+      "coords": [
+        51.5074456,
+        -0.1277653
+      ]
+    },
+    {
+      "name": "Alkmaar",
+      "accommodationName": "Assendelft, Netherlands",
+      "accommodationIndex": 2,
+      "accommodationCoords": [
+        52.4681109,
+        4.7449605
+      ],
+      "coords": [
+        52.6008538,
+        4.8170994
+      ]
+    },
+    {
+      "name": "Lyon",
+      "accommodationName": "Paris, France",
+      "accommodationIndex": 25,
+      "accommodationCoords": [
+        48.8534951,
+        2.3483915
+      ],
+      "coords": [
+        45.7578137,
+        4.8320114
+      ]
+    },
+    {
+      "name": "Bern",
+      "accommodationName": "Lucerne, Switzerland",
+      "accommodationIndex": 26,
+      "accommodationCoords": [
+        47.052144,
+        8.3058123
+      ],
+      "coords": [
+        46.9484742,
+        7.4521749
+      ]
+    },
+    {
+      "name": "Zurich",
+      "accommodationName": "Lucerne, Switzerland",
+      "accommodationIndex": 26,
+      "accommodationCoords": [
+        47.052144,
+        8.3058123
+      ],
+      "coords": [
+        47.3744489,
+        8.5410422
+      ]
+    },
+    {
+      "name": "Neuhausen Rheinfall",
+      "accommodationName": "Lucerne, Switzerland",
+      "accommodationIndex": 26,
+      "accommodationCoords": [
+        47.052144,
+        8.3058123
+      ],
+      "coords": [
+        47.679859,
+        8.6168507
+      ]
+    },
+    {
+      "name": "Stein am Rhein",
+      "accommodationName": "Lucerne, Switzerland",
+      "accommodationIndex": 26,
+      "accommodationCoords": [
+        47.052144,
+        8.3058123
+      ],
+      "coords": [
+        47.6597323,
+        8.8596823
+      ]
+    },
+    {
+      "name": "Lake Brienz",
+      "accommodationName": "Lucerne, Switzerland",
+      "accommodationIndex": 26,
+      "accommodationCoords": [
+        47.052144,
+        8.3058123
+      ],
+      "coords": [
+        46.72298,
+        7.9650351
+      ]
+    },
+    {
+      "name": "Zermatt",
+      "accommodationName": "Lucerne, Switzerland",
+      "accommodationIndex": 26,
+      "accommodationCoords": [
+        47.052144,
+        8.3058123
+      ],
+      "coords": [
+        46.0212076,
+        7.749254
+      ]
+    },
+    {
+      "name": "Matterhorn",
+      "accommodationName": "Lucerne, Switzerland",
+      "accommodationIndex": 26,
+      "accommodationCoords": [
+        47.052144,
+        8.3058123
+      ],
+      "coords": [
+        46.3810073,
+        8.0346051
+      ]
+    },
+    {
+      "name": "Pilatus",
+      "accommodationName": "Lucerne, Switzerland",
+      "accommodationIndex": 26,
+      "accommodationCoords": [
+        47.052144,
+        8.3058123
+      ],
+      "coords": [
+        46.9706835,
+        8.3986959
+      ]
+    },
+    {
+      "name": "Jungfrau",
+      "accommodationName": "Grindelwald, Switzerland",
+      "accommodationIndex": 27,
+      "accommodationCoords": [
+        46.6242733,
+        8.0367462
+      ],
+      "coords": [
+        46.5367739,
+        7.9625907
+      ]
+    },
+    {
+      "name": "Harder Kulm",
+      "accommodationName": "Grindelwald, Switzerland",
+      "accommodationIndex": 27,
+      "accommodationCoords": [
+        46.6242733,
+        8.0367462
+      ],
+      "coords": [
+        46.6996822,
+        7.8561411
+      ]
+    },
+    {
+      "name": "Interlaken",
+      "accommodationName": "Grindelwald, Switzerland",
+      "accommodationIndex": 27,
+      "accommodationCoords": [
+        46.6242733,
+        8.0367462
+      ],
+      "coords": [
+        46.6855231,
+        7.8585139
+      ]
+    },
+    {
+      "name": "Grindelwald First",
+      "accommodationName": "Grindelwald, Switzerland",
+      "accommodationIndex": 27,
+      "accommodationCoords": [
+        46.6242733,
+        8.0367462
+      ],
+      "coords": [
+        46.635832,
+        7.9888793
+      ]
+    },
+    {
+      "name": "Giessbach",
+      "accommodationName": "Lucerne, Switzerland",
+      "accommodationIndex": 26,
+      "accommodationCoords": [
+        47.052144,
+        8.3058123
+      ],
+      "coords": [
+        46.7335303,
+        8.0238695
+      ]
+    },
+    {
+      "name": "Lauterbrunnen",
+      "accommodationName": "Grindelwald, Switzerland",
+      "accommodationIndex": 27,
+      "accommodationCoords": [
+        46.6242733,
+        8.0367462
+      ],
+      "coords": [
+        46.5939043,
+        7.9078016
+      ]
     }
   ],
-  "exportDate": "2026-05-21T16:26:16.730Z"
+  "exportDate": "2026-06-08T18:51:27.778Z"
 }
