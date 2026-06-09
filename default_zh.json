@@ -998,6 +998,58 @@
         46.5939043,
         7.9078016
       ]
+    },
+    {
+      "name": "洛桑",
+      "accommodationName": "格林德瓦, 瑞士",
+      "accommodationIndex": 27,
+      "accommodationCoords": [
+        46.6242733,
+        8.0367462
+      ],
+      "coords": [
+        46.5218269,
+        6.6327025
+      ]
+    },
+    {
+      "name": "沃韋",
+      "accommodationName": "格林德瓦, 瑞士",
+      "accommodationIndex": 27,
+      "accommodationCoords": [
+        46.6242733,
+        8.0367462
+      ],
+      "coords": [
+        46.4602978,
+        6.8418655
+      ]
+    },
+    {
+      "name": "希永城堡",
+      "accommodationName": "格林德瓦, 瑞士",
+      "accommodationIndex": 27,
+      "accommodationCoords": [
+        46.6242733,
+        8.0367462
+      ],
+      "coords": [
+        46.4144557,
+        6.9288495
+      ]
+    },
+    {
+      "name": "日內瓦",
+      "accommodationName": "格林德瓦, 瑞士",
+      "accommodationIndex": 27,
+      "accommodationCoords": [
+        46.6242733,
+        8.0367462
+      ],
+      "coords": [
+        46.2017559,
+        6.1466014
+      ]
     }
   ],
   "exportDate": "2026-06-08T18:51:27.778Z"
