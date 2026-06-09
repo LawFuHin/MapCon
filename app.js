@@ -701,14 +701,25 @@ function updateMap() {
     // Add accommodation markers
     visibleAccommodations.forEach(acc => {
         if (acc.coords) {
-            const marker = L.circleMarker(acc.coords, {
+            const marker = L.marker(acc.coords, {
                 pane: 'accommodationsTop',
-                radius: 8,
-                fillColor: '#e74c3c',
-                color: '#fff',
-                weight: 3,
-                opacity: 1,
-                fillOpacity: 0.9
+                icon: L.divIcon({
+                    html: `<div style="
+                        width: 24px;
+                        height: 24px;
+                        background: #e74c3c;
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+                        border: 2px solid white;
+                    "><i class="fa-solid fa-house" style="color: white; font-size: 12px;"></i></div>`,
+                    className: 'accommodation-marker',
+                    iconSize: [12, 12],
+                    iconAnchor: [6, 12],
+                    popupAnchor: [0, -12]
+                })
             }).bindPopup(`<strong>${acc.city}</strong><br>${tCountry(acc.country)}`).addTo(map);
             layers.markers.push(marker);
             
