@@ -532,7 +532,7 @@
       ]
     },
     {
-      "name": "庫倫洛夫",
+      "name": "克魯姆洛夫",
       "accommodationName": "布拉格, 捷克",
       "accommodationIndex": 5,
       "accommodationCoords": [
@@ -753,7 +753,7 @@
       ]
     },
     {
-      "name": "森格萊阿",
+      "name": "聖朱利安",
       "accommodationName": "聖保羅灣城, 馬爾他",
       "accommodationIndex": 10,
       "accommodationCoords": [
@@ -844,7 +844,7 @@
       ]
     },
     {
-      "name": "瑙豪森萊茵瀑布",
+      "name": "萊茵瀑布",
       "accommodationName": "琉森, 瑞士",
       "accommodationIndex": 26,
       "accommodationCoords": [
@@ -961,7 +961,7 @@
       ]
     },
     {
-      "name": "格林德瓦第一",
+      "name": "菲斯特",
       "accommodationName": "格林德瓦, 瑞士",
       "accommodationIndex": 27,
       "accommodationCoords": [
