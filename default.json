@@ -1039,7 +1039,7 @@
       ]
     },
     {
-      "name": "Geneva",
+      "name": "Lake Thun",
       "accommodationName": "Grindelwald, Switzerland",
       "accommodationIndex": 27,
       "accommodationCoords": [
@@ -1047,10 +1047,23 @@
         8.0367462
       ],
       "coords": [
-        46.2017559,
-        6.1466014
+        46.7002897,
+        7.6986393
+      ]
+    },
+    {
+      "name": "Schaffhausen",
+      "accommodationName": "Lucerne, Switzerland",
+      "accommodationIndex": 26,
+      "accommodationCoords": [
+        47.052144,
+        8.3058123
+      ],
+      "coords": [
+        47.6960491,
+        8.634513
       ]
     }
   ],
-  "exportDate": "2026-06-09T19:00:21.562Z"
+  "exportDate": "2026-06-11T19:19:32.647Z"
 }

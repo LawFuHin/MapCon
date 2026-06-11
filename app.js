@@ -90,6 +90,29 @@ function tCountry(countryName) {
     return localesData[currentLang].countries[countryName];
 }
 
+// Normalize country names to English keys (reverse lookup from any language)
+function normalizeCountryToEnglish(countryName) {
+    // If it's already an English key in countryData, return it
+    if (countryData[countryName]) {
+        return countryName;
+    }
+    
+    // Try to find the English key by searching all translations
+    for (const lang in localesData) {
+        if (localesData[lang] && localesData[lang].countries) {
+            for (const englishKey in localesData[lang].countries) {
+                if (localesData[lang].countries[englishKey] === countryName) {
+                    return englishKey;
+                }
+            }
+        }
+    }
+    
+    // If not found, return the original name (may cause issues but won't crash)
+    console.warn('Could not find English key for country:', countryName);
+    return countryName;
+}
+
 async function changeLanguage(lang, loadDefault = true) {
     currentLang = lang;
     
@@ -116,7 +139,7 @@ async function changeLanguage(lang, loadDefault = true) {
         geojsonLayer.eachLayer(layer => {
             const countryName = appCountryKeyFromGeoJSON(layer.feature.properties.name);
             const localizedName = tCountry(countryName);
-            if (selectedCountries.has(localizedName)) {
+            if (selectedCountries.has(countryName)) {
                 layer.bindPopup(`<strong>${localizedName}</strong>`);
             }
         });
@@ -189,7 +212,7 @@ function initMap() {
                 style: function(feature) {
                     const geoName = appCountryKeyFromGeoJSON(feature.properties.name);
                     const localizedName = tCountry(geoName);
-                    const isSelected = selectedCountries.has(localizedName);
+                    const isSelected = selectedCountries.has(geoName);
                     
                     const color = isSelected ? getCountryColor(feature) : '#d3d3d3';
                     
@@ -204,7 +227,7 @@ function initMap() {
                 onEachFeature: function(feature, layer) {
                     const geoName = appCountryKeyFromGeoJSON(feature.properties.name);
                     const localizedName = tCountry(geoName);
-                    if (selectedCountries.has(localizedName)) {
+                    if (selectedCountries.has(geoName)) {
                         layer.bindPopup(`<strong>${localizedName}</strong>`);
                     }
                 }
@@ -552,10 +575,10 @@ function getCountryColor(input) {
     }
     
     // Check if the country is selected
-    if (selectedCountries.has(localizedName)) {
+    if (selectedCountries.has(englishName)) {
         // If there's a custom color, use it
-        if (customCountryColors[localizedName]) {
-            return customCountryColors[localizedName];
+        if (customCountryColors[englishName]) {
+            return customCountryColors[englishName];
         }
         return countryData[englishName]?.color || '#1a73e8';
     }
@@ -596,8 +619,8 @@ function refreshGeojsonCountryStyles() {
         const geoName = appCountryKeyFromGeoJSON(feature.properties.name);
         const localizedName = tCountry(geoName);
         
-        const isActive = activeCountries.has(localizedName);
-        const isSelected = selectedCountries.has(localizedName);
+        const isActive = activeCountries.has(geoName);
+        const isSelected = selectedCountries.has(geoName);
         
         const color = isActive ? getCountryColor(feature) : '#d3d3d3';
         return {
@@ -1162,8 +1185,15 @@ function applyTravelData(data) {
         throw new Error('Invalid file format');
     }
 
-    selectedCountries = new Set(data.selectedCountries);
-    accommodations = data.accommodations;
+    // Normalize all country names to English keys
+    selectedCountries = new Set(data.selectedCountries.map(country => normalizeCountryToEnglish(country)));
+    
+    // Normalize accommodation country names to English keys
+    accommodations = data.accommodations.map(acc => ({
+        ...acc,
+        country: normalizeCountryToEnglish(acc.country)
+    }));
+    
     visitedCities = data.visitedCities;
 
     tripTitle = (typeof data.tripTitle === 'string' && data.tripTitle.trim())
